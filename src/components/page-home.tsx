@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Settings, FileText, ExternalLink } from "lucide-react"
+import { Settings, FileText, ExternalLink, ArrowDown, ArrowUp } from "lucide-react"
 import Link from "next/link"
 
 export default function Pagehome() {
@@ -13,17 +13,25 @@ export default function Pagehome() {
             Te ayudamos en la gestión de proyectos
           </p>
           <div className="space-y-4">
-          <Button 
-              className="w-full h-16 text-lg justify-start px-4" 
+            <Button 
+              className="w-full h-16 text-lg justify-start px-4  bg-black text-white hover:bg-gray-300 mt-4" 
               variant="outline">
-               <FileText className="w-6 h-6 mr-4" />
-              Entrar
+               <ArrowDown className="w-6 h-6 mr-4" />
+              Descargar Parte Diario
             </Button>
+
+            <Button 
+              className="w-full h-16 text-lg justify-start px-4  bg-black text-white hover:bg-gray-300 mt-4" 
+              variant="outline">
+               <ArrowUp className="w-6 h-6 mr-4" />
+              Subir Parte Diario
+            </Button>
+            
             
             
             <Link href="/config" passHref>
               <Button 
-                className="w-full h-16 text-lg justify-start px-4 bg-black text-white hover:bg-gray-800 mt-4"
+                className="w-full h-16 text-lg justify-start px-4"
                 asChild>
                 <span>
                   <Settings className="w-6 h-6 mr-4" />
@@ -38,7 +46,7 @@ export default function Pagehome() {
               rel="noopener noreferrer" 
               className="flex items-center justify-center w-full h-12 px-4 text-lg text-blue-600 hover:text-blue-800 hover:underline"
             >
-              Visitar partesdiarios.com
+              soporte@bim20.com
               <ExternalLink className="w-5 h-5 ml-2" />
             </Link>
           </div>
