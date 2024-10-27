@@ -44,11 +44,13 @@ export default function Pagedocumentacion() {
             <p>Para cargar los partes nuevos tienes que tener terminado el parte anterior.</p>
             <br />
             <p><strong>Versión</strong></p>
-            <p>1.0</p>
+            <p>V1-20241027</p>
             <br />
             <p><strong>Contacto</strong></p>
+            <p>Marlon Falcón Hernández</p>
             <p>soporte@partesdiarios.com</p>
             <p>+34 662 47 06 45</p>
+            <p>Valencia, España</p>
         </CardContent>
       </Card>
     </div>
