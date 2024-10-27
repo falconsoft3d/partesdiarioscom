@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Settings, FileText, ExternalLink, ArrowDown, ArrowUp } from "lucide-react"
+import { Settings, ExternalLink, ArrowDown, ArrowUp } from "lucide-react"
 import Link from "next/link"
 
 export default function Pagehome() {
