@@ -6,11 +6,11 @@ import Link from "next/link"
 export default function Pagehome() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <Card className="w-full max-w-sm mx-4">
+      <Card className="w-full max-w-sm mx-2">
         <CardContent className="p-6 space-y-6">
-          <h1 className="text-2xl font-bold text-center mb-6">Partes Diarios</h1>
-          <p className="text-center text-lg text-gray-600 mb-4">
-            Te ayudamos en la gestión de proyectos
+          <h1 className="text-2xl font-bold text-center mb-6">PartesDiarios.com</h1>
+          <p className="text-center text-lg text-gray-600 mb-2">
+            Sistema de Gestión de Partes V 1.0
           </p>
           <div className="space-y-4">
             <Button 
@@ -39,6 +39,8 @@ export default function Pagehome() {
                 </span>
               </Button>
             </Link>
+            
+
             
             <Link 
               href="https://partesdiarios.com" 
