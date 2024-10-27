@@ -14,7 +14,7 @@ const encryptPassword = (password: string) => {
   return btoa(password) // Esto es una codificación en Base64, no una encriptación segura
 }
 
-export default function Configuracion() {
+export function Configuracion() {
   const [url, setUrl] = useState("")
   const [usuario, setUsuario] = useState("")
   const [contrasena, setContrasena] = useState("")
