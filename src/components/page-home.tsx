@@ -1,16 +1,27 @@
+"use client"
+
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Settings, ExternalLink, ArrowDown, ArrowUp } from "lucide-react"
 import Link from "next/link"
+import { useState, useEffect } from "react"
 
 export default function Pagehome() {
+    const [usuario, setUsuario] = useState("")
+    useEffect(() => {
+      // Cargar datos guardados al iniciar el componente
+      const savedUsuario = localStorage.getItem("partesDiarios_usuario")
+      if (savedUsuario) setUsuario(savedUsuario)
+      // No cargamos la contraseña por seguridad
+    }, [])  
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <Card className="w-full max-w-sm mx-2">
         <CardContent className="p-6 space-y-6">
           <h1 className="text-2xl font-bold text-center mb-6">PartesDiarios.com</h1>
           <p className="text-center text-lg text-gray-600 mb-2">
-            Sistema de Gestión de Partes V 1.0
+          Gestión de Partes V 1.0 {usuario ? <strong>{usuario}</strong> : ""}
           </p>
           <div className="space-y-4">
             <Button 
