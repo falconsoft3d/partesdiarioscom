@@ -21,7 +21,7 @@ export default function Pagehome() {
             </Button>
 
             <Button 
-              className="w-full h-16 text-lg justify-start px-4  bg-black text-white hover:bg-gray-300 mt-4" 
+              className="w-full h-16 text-lg justify-start px-4  bg-black text-white hover:bg-gray-300 mt-4"
               variant="outline">
                <ArrowUp className="w-6 h-6 mr-4" />
               Subir Parte Diario
@@ -31,7 +31,7 @@ export default function Pagehome() {
             
             <Link href="/config" passHref>
               <Button 
-                className="w-full h-16 text-lg justify-start px-4"
+                className="w-full h-16 text-lg justify-start px-4  bg-blue-800 text-white hover:bg-blue-600 mt-4"
                 asChild>
                 <span>
                   <Settings className="w-6 h-6 mr-4" />

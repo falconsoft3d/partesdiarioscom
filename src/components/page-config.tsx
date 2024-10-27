@@ -99,7 +99,7 @@ export default function Pageconfig() {
                 required
               />
             </div>
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full h-16 text-lg  px-4  bg-blue-800 text-white hover:bg-blue-600 mt-4">
               <Save className="mr-2 h-4 w-4" /> Guardar Configuración
             </Button>
           </form>
