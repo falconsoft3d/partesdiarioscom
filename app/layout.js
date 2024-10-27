@@ -16,9 +16,8 @@ export const metadata = {
   title: "Partes Diarios",
   description: "Partes Diarios de la empresa",
   manifest: "/manifest.json",
-  icon: {
-    apple : "/icons/apple-touch-icon.png",
-    favicon: "/icons/favicon.ico",
+  icons: {
+    apple : "/icon512_maskable.png",
   }
 };
 
