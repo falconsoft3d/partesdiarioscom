@@ -59,7 +59,7 @@ export default function Pagehome() {
               rel="noopener noreferrer" 
               className="flex items-center justify-center w-full h-12 px-4 text-lg text-blue-600 hover:text-blue-800 hover:underline"
             >
-              soporte@bim20.com
+              soporte@partesdiarios.com
               <ExternalLink className="w-5 h-5 ml-2" />
             </Link>
           </div>
