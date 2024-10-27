@@ -21,7 +21,7 @@ export default function Pagehome() {
         <CardContent className="p-6 space-y-6">
           <h1 className="text-2xl font-bold text-center mb-6">PartesDiarios.com</h1>
           <p className="text-center text-lg text-gray-600 mb-2">
-          Gestión de Partes V 1.0 {usuario ? <strong>{usuario}</strong> : ""}
+          Gestión de Partes {usuario ? <strong>{usuario}</strong> : ""}
           </p>
           <div className="space-y-4">
             <Button 
@@ -54,12 +54,11 @@ export default function Pagehome() {
 
             
             <Link 
-              href="https://partesdiarios.com" 
-              target="_blank" 
+              href="/documentacion"
               rel="noopener noreferrer" 
               className="flex items-center justify-center w-full h-12 px-4 text-lg text-blue-600 hover:text-blue-800 hover:underline"
             >
-              soporte@partesdiarios.com
+              Documentación
               <ExternalLink className="w-5 h-5 ml-2" />
             </Link>
           </div>
