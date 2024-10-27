@@ -21,12 +21,16 @@ export default function Pagehome() {
             </Button>
             
             
-            <Button 
-              className="w-full h-16 text-lg justify-start px-4 bg-black text-white hover:bg-gray-800"
-            >
-              <Settings className="w-6 h-6 mr-4" />
-              Configuración
-            </Button>
+            <Link href="/config" passHref>
+              <Button 
+                className="w-full h-16 text-lg justify-start px-4 bg-black text-white hover:bg-gray-800 mt-4"
+                asChild>
+                <span>
+                  <Settings className="w-6 h-6 mr-4" />
+                  Configuración
+                </span>
+              </Button>
+            </Link>
             
             <Link 
               href="https://partesdiarios.com" 
