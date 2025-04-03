@@ -1,16 +1,25 @@
 "use client";
 
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Grid, Paper, Typography, Box, Button } from '@mui/material';
+import CerrarSesion from './CerrarSesion';
+import { useAuth } from '@/context/AuthContext';
 
 const Dashboard = () => {
     const router = useRouter();
-    
+    const { isAuthenticated } = useAuth();
+    useEffect(() => {
+        
+        if (!isAuthenticated) {
+                router.push('/login')
+            }
+       
+      }, [])
     return (
         <Grid container justifyContent="center" alignItems="center" sx={{ minHeight: '100vh', p: 2, backgroundColor: '#E3D5DF' }}>
             <Grid size ={{xs:12, sm:8 ,md:6, lg:4}} component="div" sx={{ position: 'relative' }}>
-                <Box
+                {/* <Box
                     sx={{
                         position: 'absolute',
                         top: '-5px',
@@ -23,17 +32,18 @@ const Dashboard = () => {
                         borderRadius: 4,
                         zIndex: 0,
                     }}
-                />
-                <Paper elevation={6} sx={{ p: 4, borderRadius: 4, textAlign: 'center', position: 'relative', zIndex: 1 }}>
+                /> */}
+                <Paper elevation={6} sx={{ p: 4, borderRadius: 4, textAlign: 'center', position: 'relative', zIndex: 1 ,backgroundColor: '#714B67'}}>
+                <CerrarSesion/>
                     {/* Ícono centrado arriba */}
-                    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pt: 4 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pt: 2 }}>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
                             strokeWidth={2}
                             stroke="currentColor"
-                            className="w-12 h-12 text-blue-500"
+                            className="w-12 h-12 text-white"
                         >
                             <path
                                 strokeLinecap="round"
@@ -43,7 +53,9 @@ const Dashboard = () => {
                         </svg>
                     </Box>
 
-                    <Typography variant="h6" color="text.primary" mb={2}>
+                    <Typography variant="h6" sx={{  color: 'primary.contrastText', 
+                mb: 2,
+                fontFamily: "'Poppins', sans-serif" }}>
                         Partes Diarios
                     </Typography>
 
@@ -54,10 +66,12 @@ const Dashboard = () => {
                             onClick={() => router.push('/partes')}
                             fullWidth
                             sx={{
-                                backgroundColor: '#714B67',
-                                '&:hover': { backgroundColor: '#7eadf3' },
-                                borderRadius: '100px',
-                                mb: 2,
+                                
+                                backgroundColor: '#4A6B57', 
+                                '&:hover': { 
+                                    backgroundColor: '#7A9B82' 
+                                },
+                                borderRadius: '5px'
                             }}
                         >
                             Bajar Parte
@@ -68,17 +82,21 @@ const Dashboard = () => {
                         <Button
                             variant="contained"
                             startIcon={<i className="ri-arrow-up-line"></i>}
-                            onClick={() => router.push('/partes')}
+                            // onClick={() => router.push('/partes')}
                             fullWidth
                             sx={{
-                                backgroundColor: '#714B67',
-                                '&:hover': { backgroundColor: '#7eadf3' },
-                                borderRadius: '100px',
+                              
+                                backgroundColor: '#4A6B57', 
+                                '&:hover': { 
+                                    backgroundColor: '#7A9B82' 
+                                },
+                                borderRadius: '5px'
                             }}
                         >
                             Subir Parte
                         </Button>
                     </Box>
+                  
                 </Paper>
             </Grid>
         </Grid>

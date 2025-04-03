@@ -4,7 +4,7 @@ import { useUrl } from '@/context/UrlContext';
 import useHttpCustomService from '@/services/HttpCustomService';
 import { ApiResponse, FormattedChangePW } from '@/util/types';
 import { validateChangePWField } from '@/util/validation';
-import { Grid, TextField, Button, Typography, Paper, Box } from '@mui/material';
+import { Grid, TextField, Button, Typography, Paper } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
@@ -45,7 +45,7 @@ const ChangePassword = () => {
     return (
         <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh', backgroundColor: '#f3f4f6' }}>
             <Grid size ={{xs:12, sm:8 ,md:6, lg:4}} component="div"  sx={{ position: 'relative' }}>
-              {/* Fondo degradado con sombra detrás del Paper */}
+              {/* Fondo degradado con sombra detrás del Paper
               <Box
                     sx={{
                         position: 'absolute',
@@ -59,17 +59,19 @@ const ChangePassword = () => {
                         borderRadius: 4,
                         zIndex: 0,
                     }}
-                />
-                <Paper elevation={6} sx={{ p: 4, borderRadius: 4, textAlign: 'center', position: 'relative', zIndex: 1 }}>
+                /> */}
+                <Paper elevation={6} sx={{ p: 4, borderRadius: 4, textAlign: 'center', position: 'relative', zIndex: 1 ,backgroundColor: '#714B67'}}>
                 <Grid> <Button
                 startIcon={ <i className="ri-arrow-left-circle-line"></i>}
-                        sx={{ mt: 2, color: '#714B67' }}
-                        onClick={() => router.push('/')}
+                        sx={{ mt: 2, color: '#f7f0f5' }}
+                        onClick={() => router.push('/login')}
                         fullWidth
                     >
                         Volver
                     </Button></Grid>
-                    <Typography variant="h5" align="center" gutterBottom>
+                    <Typography variant="h5" sx={{  color: 'primary.contrastText', 
+                mb: 2,
+                fontFamily: "'Poppins', sans-serif" }}>
                         Cambiar Contraseña
                     </Typography>
                     <Grid container spacing={2}>
@@ -87,7 +89,15 @@ const ChangePassword = () => {
                         </Grid>
                         <Grid size={{xs:12}}>
                             <Button fullWidth variant="contained"startIcon={ <i className="ri-lock-line"></i>}
-                        sx={{mt:3, backgroundColor: '#714B67', '&:hover': { backgroundColor: '#A07698' } ,borderRadius:'100px'}} onClick={submitChangePW}>
+                       sx={{
+                        mt: 3,
+                        backgroundColor: '#4A6B57', 
+                        '&:hover': { 
+                            backgroundColor: '#7A9B82' 
+                        },
+                        borderRadius: '5px'
+                    }} 
+                    onClick={submitChangePW}>
                                 Cambiar contraseña
                             </Button>
                         </Grid>
