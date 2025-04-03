@@ -3,6 +3,7 @@ import "./globals.css";
 import "remixicon/fonts/remixicon.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { UrlProvider } from "@/context/UrlContext";
+import Head from "next/head";
 
 
 
@@ -21,6 +22,10 @@ export default function RootLayout({
       <UrlProvider>
     <html id='__next' lang="en" >
        <link rel="manifest" href="/manifest.json" />
+      <Head> <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  /></Head>
       <body
         className="bg-blue-200"
       >

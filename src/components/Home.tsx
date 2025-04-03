@@ -12,7 +12,7 @@ const Home = () => {
         <Grid  container justifyContent="center" alignItems="center" style={{ minHeight: '100vh', padding: '1rem' ,backgroundColor: '#E3D5DF'}}>
            
             <Grid size ={{xs:12, sm:8 ,md:6, lg:4}} component="div" sx={{ position: 'relative' }}>
-                 {/* Fondo degradado con sombra detrás del Paper */}
+                 {/* Fondo degradado con sombra detrás del Paper
                 <Box
                     sx={{
                         position: 'absolute',
@@ -26,8 +26,8 @@ const Home = () => {
                         borderRadius: 4,
                         zIndex: 0,
                     }}
-                />
-                <Paper elevation={4} sx={{ padding: 4, borderRadius: 4, textAlign: 'center', position: 'relative' }}>
+                /> */}
+                <Paper elevation={4} sx={{ padding: 4, borderRadius: 4, textAlign: 'center', position: 'relative' ,backgroundColor: '#714B67'}}>
                     {/* Ícono centrado arriba */}
                     <Box display="flex" justifyContent="center" alignItems="center" mt={2}>
                         <svg
@@ -36,7 +36,7 @@ const Home = () => {
                             viewBox="0 0 24 24"
                             strokeWidth={2}
                             stroke="currentColor"
-                            className="w-12 h-12 text-blue-500"
+                            className="w-12 h-12 text-white"
                         >
                             <path
                                 strokeLinecap="round"
@@ -46,11 +46,15 @@ const Home = () => {
                         </svg>
                     </Box>
                     
-                    <Typography variant="h5" fontWeight={600} color="text.primary" mt={2}>
+                    <Typography variant="h5" fontWeight={600} sx={{  color: 'primary.contrastText', 
+                mt: 2,
+                fontFamily: "'Poppins', sans-serif" }}>
                         Partes Diarios
                     </Typography>
                     
-                    <Typography variant="body1" color="text.secondary" mt={1}>
+                    <Typography variant="body1" sx={{  color: 'primary.contrastText', 
+                mt: 2,
+                fontFamily: "'Poppins', sans-serif" }}>
                         Bienvenidos a la Gestión de Partes
                     </Typography>
                     
@@ -59,8 +63,11 @@ const Home = () => {
                         startIcon={ <i className="ri-settings-5-fill"></i>}
                         sx={{
                             mt: 3,
-                            borderRadius:'100px',
-                            backgroundColor: '#714B67',
+                            backgroundColor: '#4A6B57', 
+                            '&:hover': { 
+                                backgroundColor: '#7A9B82' 
+                            },
+                            borderRadius: '5px'
                            
                         }}
                         onClick={() => router.push('/config')}

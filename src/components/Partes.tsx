@@ -1,16 +1,25 @@
 "use client";
 
 import { useRouter } from 'next/navigation';
-import React from 'react';
-import { Grid, Paper, Typography, Box, Button } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Grid, Paper, Typography, Box, Button, Avatar } from '@mui/material';
+import CerrarSesion from './CerrarSesion';
+import { useAuth } from '@/context/AuthContext';
 
 const Partes = () => {
     const router = useRouter();
-    
+    const { isAuthenticated,user } = useAuth();
+    useEffect(() => {
+        
+        if (!isAuthenticated) {
+                router.push('/login')
+            }
+       
+      }, [])
     return (
         <Grid container justifyContent="center" alignItems="center" sx={{ minHeight: '100vh', p: 2, backgroundColor: '#E3D5DF' }}>
             <Grid size ={{xs:12, sm:8 ,md:6, lg:4}} component="div" sx={{ position: 'relative' }}>
-                <Box
+                {/* <Box
                     sx={{
                         position: 'absolute',
                         top: '-5px',
@@ -23,18 +32,38 @@ const Partes = () => {
                         borderRadius: 4,
                         zIndex: 0,
                     }}
-                />
-                <Paper elevation={6} sx={{ p: 4, borderRadius: 4, textAlign: 'center', position: 'relative', zIndex: 1 }}>
+                /> */}
+                <Paper elevation={6} sx={{ p: 4, borderRadius: 4, textAlign: 'center', position: 'relative', zIndex: 1,backgroundColor: '#714B67' }}>
+                <CerrarSesion/>
                     {/* Ícono centrado arriba */}
-                    <Box  sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-    <i className='ri-home-7-fill cursor-pointer' onClick={()=>router.push('/home')}></i>
-    <Typography variant="h6" color="text.primary">
-        Inicio
+                    <Box  sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center',color: '#f7f0f5' ,alignItems: 'center' }}>
+                    <Avatar  sx={{ width: 56, height: 56 }} alt="Remy Sharp" src="/images/avatar/1.png" />
+    <Typography variant="h6" sx={{  color: 'primary.contrastText', 
+                mb: 2,
+                fontFamily: "'Poppins', sans-serif" }}>
+        {user.partesDiarios_usuario}
     </Typography>
 </Box>
 
 
-                   
+<Box sx={{ p: 2 }}>
+                        <Button
+                            variant="contained"
+                            startIcon={<i className="ri-home-7-fill"></i>}
+                            onClick={() => router.push('/home')}
+                            fullWidth
+                            sx={{
+                              
+                                backgroundColor: '#4A6B57', 
+                                '&:hover': { 
+                                    backgroundColor: '#7A9B82' 
+                                },
+                                borderRadius: '5px'
+                            }}
+                        >
+                            Inicio
+                        </Button>
+                    </Box>  
 
                     <Box sx={{ p: 2 }}>
                         <Button
@@ -43,10 +72,12 @@ const Partes = () => {
                             onClick={() => router.push('/config')}
                             fullWidth
                             sx={{
-                                backgroundColor: '#714B67',
-                                '&:hover': { backgroundColor: '#7eadf3' },
-                                borderRadius: '100px',
-                                
+                              
+                                backgroundColor: '#4A6B57', 
+                                '&:hover': { 
+                                    backgroundColor: '#7A9B82' 
+                                },
+                                borderRadius: '5px'
                             }}
                         >
                             Empleados
@@ -60,9 +91,12 @@ const Partes = () => {
                             onClick={() => router.push('/config')}
                             fullWidth
                             sx={{
-                                backgroundColor: '#714B67',
-                                '&:hover': { backgroundColor: '#7eadf3' },
-                                borderRadius: '100px',
+                               
+                                backgroundColor: '#4A6B57', 
+                                '&:hover': { 
+                                    backgroundColor: '#7A9B82' 
+                                },
+                                borderRadius: '5px'
                             }}
                         >
                             Equipos
@@ -75,9 +109,12 @@ const Partes = () => {
                             onClick={() => router.push('/config')}
                             fullWidth
                             sx={{
-                                backgroundColor: '#714B67',
-                                '&:hover': { backgroundColor: '#7eadf3' },
-                                borderRadius: '100px',
+                              
+                                backgroundColor: '#4A6B57', 
+                                '&:hover': { 
+                                    backgroundColor: '#7A9B82' 
+                                },
+                                borderRadius: '5px'
                             }}
                         >
                             Linea de Avance
@@ -90,9 +127,12 @@ const Partes = () => {
                             onClick={() => router.push('/config')}
                             fullWidth
                             sx={{
-                                backgroundColor: '#714B67',
-                                '&:hover': { backgroundColor: '#7eadf3' },
-                                borderRadius: '100px',
+                              
+                                backgroundColor: '#4A6B57', 
+                                '&:hover': { 
+                                    backgroundColor: '#7A9B82' 
+                                },
+                                borderRadius: '5px'
                             }}
                         >
                             Horas Perdidas
@@ -105,9 +145,12 @@ const Partes = () => {
                             onClick={() => router.push('/config')}
                             fullWidth
                             sx={{
-                                backgroundColor: '#714B67',
-                                '&:hover': { backgroundColor: '#7eadf3' },
-                                borderRadius: '100px',
+                              
+                                backgroundColor: '#4A6B57', 
+                                '&:hover': { 
+                                    backgroundColor: '#7A9B82' 
+                                },
+                                borderRadius: '5px'
                             }}
                         >
                             Comentarios
@@ -120,14 +163,18 @@ const Partes = () => {
                             onClick={() => router.push('/config')}
                             fullWidth
                             sx={{
-                                backgroundColor: '#714B67',
-                                '&:hover': { backgroundColor: '#7eadf3' },
-                                borderRadius: '100px',
+                              
+                                backgroundColor: '#4A6B57', 
+                                '&:hover': { 
+                                    backgroundColor: '#7A9B82' 
+                                },
+                                borderRadius: '5px'
                             }}
                         >
                             Fotos
                         </Button>
                     </Box>
+                   
                 </Paper>
             </Grid>
         </Grid>

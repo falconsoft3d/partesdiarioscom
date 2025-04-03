@@ -14,13 +14,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const [user, setUser] = useState({
-    userName: '',
-    userFirstName: '',
-    userLastName: '',
-    roleName: '',
-    foto: '',
-    state: 0,
-    clientID: 0
+    partesDiarios_usuario: '',
+    partesDiarios_contrasena: '',
+    partesDiarios_url: '',
+   
   });
 
   const [token, setToken] = useState<string | null>(null);
@@ -28,53 +25,43 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // Recuperar el token y la información del usuario desde localStorage al cargar la app
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    const storedUserName = localStorage.getItem('userName');
-    const storedUserFirstName = localStorage.getItem('userFirstName');
-    const storedUserLastName = localStorage.getItem('userLastName');
-    const storedRoleName = localStorage.getItem('roleName');
-    const storedFoto = localStorage.getItem('foto');
-    const storedStatus = localStorage.getItem('status');
-    const storedClientID = localStorage.getItem('clientID');
+    //const storedToken = localStorage.getItem('token');
+    const storedUserName = localStorage.getItem('partesDiarios_usuario');
+    const storedUserFirstName = localStorage.getItem('partesDiarios_contrasena');
+    const storedUserLastName = localStorage.getItem('partesDiarios_url');
+   
 
-    if (storedToken && storedUserName && storedUserFirstName && storedUserLastName && storedRoleName) {
-      setToken(storedToken);
+    if (storedUserName && storedUserFirstName && storedUserLastName) {
+     // setToken(storedToken);
       setUser({
-        userName: storedUserName,
-        userFirstName: storedUserFirstName,
-        userLastName: storedUserLastName,
-        roleName: storedRoleName,
-        foto: storedFoto ? storedFoto : '',
-        state: Number(storedStatus),
-        clientID: Number(storedClientID)
+        partesDiarios_usuario: storedUserName,
+        partesDiarios_contrasena: storedUserFirstName,
+        partesDiarios_url: storedUserLastName,
+       
       });
       setIsAuthenticated(true);
     }
   }, []);
 
   // Método para iniciar sesión
-  const login = (userName: string, userFirstName: string, userLastName: string, roleName: string, token: string, foto: string, state: number, clientID: number) => {
-    setUser({ userName, userFirstName, userLastName, roleName, foto, state, clientID });
+  const login = (partesDiarios_usuario: string, partesDiarios_contrasena: string, partesDiarios_url: string) => {
+    setUser({ partesDiarios_usuario, partesDiarios_contrasena, partesDiarios_url });
     setToken(token);
     setIsAuthenticated(true);
 
     // Guardar la información en localStorage
-    localStorage.setItem('token', token);
-    localStorage.setItem('userName', userName);
-    localStorage.setItem('userFirstName', userFirstName);
-    localStorage.setItem('userLastName', userLastName);
-    localStorage.setItem('roleName', roleName);
-    localStorage.setItem('foto', foto);
-    localStorage.setItem('status', String(state));
-    localStorage.setItem('clientID', String(clientID));
-
+    //localStorage.setItem('token', token);
+    localStorage.setItem('partesDiarios_usuario', partesDiarios_usuario);
+    localStorage.setItem('partesDiarios_contrasena', partesDiarios_contrasena);
+    localStorage.setItem('partesDiarios_url', partesDiarios_url);
+   
     router.push("/home"); // Redirigir a la página principal
   };
 
   // Método para cerrar sesión
   const logout = () => {
-    setUser({ userName: '', userFirstName: '', userLastName: '', roleName: '', foto: '', state: 0, clientID: 0 });
-    setToken(null);
+    setUser({ partesDiarios_usuario: '', partesDiarios_contrasena: '', partesDiarios_url: ''});
+    //setToken(null);
     setIsAuthenticated(false);
     localStorage.clear(); // Borra toda la información almacenada
     router.push("/login"); // Redirigir al login

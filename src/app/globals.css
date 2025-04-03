@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Para integrar con Material-UI */
+.MuiTypography-root {
+  font-family: 'Poppins', sans-serif !important;
+}
+
 :root {
   --background: #d3cdcd;
   --foreground: #171717;

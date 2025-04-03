@@ -25,24 +25,17 @@ status:string
 export interface AuthContextProps {
     isAuthenticated: boolean
     user: {
-      userName: string
-      userFirstName: string
-      userLastName: string
-      roleName: string
-      foto: string
-      state: number
-      clientID: number
+      partesDiarios_usuario: string
+      partesDiarios_contrasena: string
+      partesDiarios_url: string
+     
     }
     token: string | null
     login: (
-      userName: string,
-      userFirstName: string,
-      userLastName: string,
-      roleName: string,
-      token: string,
-      foto: string,
-      state: number,
-      clientID: number | 0
+      partesDiarios_usuario: string,
+      partesDiarios_contrasena: string,
+      partesDiarios_url: string,
+     
     ) => void
     logout: () => void
   }
