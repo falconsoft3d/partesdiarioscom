@@ -2,6 +2,7 @@
 
 import { useUrl } from '@/context/UrlContext';
 import useHttpCustomService from '@/services/HttpCustomService';
+import { colors } from '@/util/colorTheme';
 import { ApiResponse, FormattedChangePW } from '@/util/types';
 import { validateChangePWField } from '@/util/validation';
 import { Grid, TextField, Button, Typography, Paper } from '@mui/material';
@@ -29,6 +30,34 @@ const ChangePassword = () => {
     };
 
     const submitChangePW = async () => {
+        // Validar campos antes de enviar
+    const newErrors: Record<string, string> = {};
+    
+    // Validar cada campo
+    (Object.keys(formData) as Array<keyof FormattedChangePW>).forEach((field) => {
+        const value = formData[field]!; // Non-null assertion
+        const error = validateChangePWField(field, value, formData);
+        if (error) newErrors[field] = error;
+    });
+
+    // Verificar si hay errores
+    if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
+        Swal.fire({
+            icon: 'error',
+            title: 'Errores de validación',
+            html: `
+                <div style="text-align: left;">
+                    <strong>Corrija los siguientes errores:</strong>
+                    <ul style="margin-top: 10px;">
+                        ${Object.values(newErrors).map(error => `<li>${error}</li>`).join('')}
+                    </ul>
+                </div>
+            `,
+            confirmButtonColor: colors.success.default,
+        });
+        return;
+    }
         try {
             const response = await post<ApiResponse, FormattedChangePW>(`${apiUrl}/bim/diary-part-offline/pwa/change-password`, formData);
             if (response.result.status === 'ok') {
@@ -76,27 +105,66 @@ const ChangePassword = () => {
                     </Typography>
                     <Grid container spacing={2}>
                         <Grid size={{xs:12}} >
-                            <TextField fullWidth label="Correo" type="email" name="login" value={formData.login} onChange={handleChange} error={!!errors.login} helperText={errors.login} />
+                            <TextField fullWidth placeholder="Correo" type="email" name="login" value={formData.login} onChange={handleChange} error={!!errors.login} helperText={errors.login}  sx={{ 
+                            
+                            '& .MuiOutlinedInput-root': {
+                                backgroundColor: 'white',
+                                borderRadius: '8px',
+                                '&.Mui-focused fieldset': {
+                                    borderColor: '#38866C !important',
+                                },
+                            },
+                        }}/>
                         </Grid>
                         <Grid size={{xs:12}}>
-                            <TextField fullWidth label="Contraseña anterior" type="password" name="password" value={formData.password} onChange={handleChange} error={!!errors.password} helperText={errors.password} />
+                            <TextField fullWidth placeholder="Contraseña anterior" type="password" name="password" value={formData.password} onChange={handleChange} error={!!errors.password} helperText={errors.password} 
+                            sx={{ 
+                            
+                                '& .MuiOutlinedInput-root': {
+                                    backgroundColor: 'white',
+                                    borderRadius: '8px',
+                                    '&.Mui-focused fieldset': {
+                                        borderColor: '#38866C !important',
+                                    },
+                                },
+                            }}/>
                         </Grid>
                         <Grid size={{xs:12}}>
-                            <TextField fullWidth label="Nueva Contraseña" type="password" name="new-password" value={formData['new-password']} onChange={handleChange} error={!!errors['new-password']} helperText={errors['new-password']} />
+                            <TextField fullWidth placeholder="Nueva Contraseña" type="password" name="new-password" value={formData['new-password']} onChange={handleChange} error={!!errors['new-password']} helperText={errors['new-password']} 
+                            sx={{ 
+                            
+                                '& .MuiOutlinedInput-root': {
+                                    backgroundColor: 'white',
+                                    borderRadius: '8px',
+                                    '&.Mui-focused fieldset': {
+                                        borderColor: '#38866C !important',
+                                    },
+                                },
+                            }}/>
                         </Grid>
                         <Grid size={{xs:12}}>
-                            <TextField fullWidth label="Confirmar Nueva Contraseña" type="password" name="conf-new-password" value={formData['conf-new-password']} onChange={handleChange} error={!!errors['conf-new-password']} helperText={errors['conf-new-password']} />
+                            <TextField fullWidth placeholder="Confirmar Nueva Contraseña" type="password" name="conf-new-password" value={formData['conf-new-password']} onChange={handleChange} error={!!errors['conf-new-password']} helperText={errors['conf-new-password']} 
+                            sx={{ 
+                            
+                                '& .MuiOutlinedInput-root': {
+                                    backgroundColor: 'white',
+                                    borderRadius: '8px',
+                                    '&.Mui-focused fieldset': {
+                                        borderColor: '#38866C !important',
+                                    },
+                                },
+                            }}/>
                         </Grid>
                         <Grid size={{xs:12}}>
                             <Button fullWidth variant="contained"startIcon={ <i className="ri-lock-line"></i>}
                        sx={{
-                        mt: 3,
-                        backgroundColor: '#4A6B57', 
+                              
+                        backgroundColor: colors.success.default, 
                         '&:hover': { 
-                            backgroundColor: '#7A9B82' 
+                            backgroundColor: `${colors.success.default}CC` 
                         },
                         borderRadius: '5px'
-                    }} 
+                    }}
                     onClick={submitChangePW}>
                                 Cambiar contraseña
                             </Button>

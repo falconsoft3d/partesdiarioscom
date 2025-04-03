@@ -10,6 +10,8 @@ import Swal from 'sweetalert2';
 import Link from 'next/link';
 import { useUrl } from '@/context/UrlContext';
 import { useAuth } from '@/context/AuthContext';
+import { colors } from '@/util/colorTheme';
+
 
 // Función simple de encriptación (solo para demostración)
 const encryptPassword = (password: string) => {
@@ -46,6 +48,35 @@ const Login = () => {
 
 
     const submitLogin = async () => {
+        // Validar campos primero
+    const newErrors: Record<string, string> = {};
+    
+    // Validar login
+    const loginError = validateUserField('login', formData.login);
+    if (loginError) newErrors.login = loginError;
+    
+    // Validar contraseña
+    const passwordError = validateUserField('password', formData.password);
+    if (passwordError) newErrors.password = passwordError;
+    
+    // Si hay errores, mostrar alerta y actualizar estado
+    if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error de validación',
+            html: `
+                <div style="text-align: left;">
+                    <strong>Errores encontrados:</strong>
+                    <ul style="margin-top: 10px;">
+                        ${Object.values(newErrors).map(error => `<li>${error}</li>`).join('')}
+                    </ul>
+                </div>
+            `,
+            confirmButtonColor: '#38866C',
+        });
+        return;
+    }
         try {
 setIsLoading(true)
 
@@ -131,7 +162,7 @@ setIsLoading(true)
                     </Typography>
                     <TextField
                         fullWidth
-                        label="Correo"
+                        placeholder="Tu Correo"
                         type="email"
                         name="login"
                         value={formData.login}
@@ -139,7 +170,16 @@ setIsLoading(true)
                         error={!!errors.login}
                         helperText={errors.login}
                         disabled={isLoading}
-                        sx={{ mb: 3 }}
+                        sx={{ 
+                            mb: 3,
+                            '& .MuiOutlinedInput-root': {
+                                backgroundColor: 'white',
+                                borderRadius: '8px',
+                                '&.Mui-focused fieldset': {
+                                    borderColor: '#38866C !important',
+                                },
+                            },
+                        }}
                         InputProps={{
                             endAdornment: (
                               <InputAdornment position='end'>
@@ -153,10 +193,11 @@ setIsLoading(true)
                               </InputAdornment>
                             )
                           }}
+                         
                     />
                     <TextField
                         fullWidth
-                        label="Contraseña"
+                        placeholder="Tu Contraseña"
                         type={isPasswordShown ? 'text' : 'password'}
                         name="password"
                         value={formData.password}
@@ -164,7 +205,16 @@ setIsLoading(true)
                         error={!!errors.password}
                         helperText={errors.password}
                         disabled={isLoading}
-                        sx={{ mb: 3 }}
+                        sx={{ 
+                            mb: 3,
+                            '& .MuiOutlinedInput-root': {
+                                backgroundColor: 'white',
+                                borderRadius: '8px',
+                                '&.Mui-focused fieldset': {
+                                    borderColor: '#38866C !important',
+                                },
+                            },
+                        }}
                         InputProps={{
                             endAdornment: (
                               <InputAdornment position='end'>
@@ -187,10 +237,10 @@ setIsLoading(true)
                         variant="contained"
                         startIcon={<i className="ri-login-box-line"></i>}
                         sx={{
-                            mt: 3,
-                            backgroundColor: '#4A6B57', 
+                              
+                            backgroundColor: colors.success.default, 
                             '&:hover': { 
-                                backgroundColor: '#7A9B82' 
+                                backgroundColor: `${colors.success.default}CC` 
                             },
                             borderRadius: '5px'
                         }}

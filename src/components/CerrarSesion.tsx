@@ -1,4 +1,5 @@
 import { useAuth } from '@/context/AuthContext';
+import { colors } from '@/util/colorTheme';
 import { Box, Fab } from '@mui/material';
 
 import React from 'react'
@@ -26,7 +27,14 @@ const CerrarSesion = () => {
       };
     return (
         <Box  sx={{ display: 'flex', justifyContent: 'flex-end' }} >
-        <Fab onClick={handleLogout} color="success" title='Cerrar sesion' aria-label="add">
+        <Fab onClick={handleLogout}  sx={{
+                              
+                              backgroundColor: colors.success.default, 
+                              '&:hover': { 
+                                  backgroundColor: `${colors.success.default}CC` 
+                              },
+                             
+                          }} title='Cerrar sesion' aria-label="add">
 <i className='ri-logout-box-line'></i>
 </Fab>
         </Box>

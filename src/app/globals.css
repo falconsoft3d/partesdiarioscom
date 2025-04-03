@@ -8,6 +8,13 @@
 :root {
   --background: #d3cdcd;
   --foreground: #171717;
+  --primary: #502C48;
+  --secondary: #662F65;
+  --success: #38866C;
+  --destructive: #E22E22;
+  
+  --foreground: #000000;
+  
 }
 
 @theme inline {
