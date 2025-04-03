@@ -12,49 +12,58 @@ const config: Config = {
     extend: {
       fontFamily: {
         poppins: ['Poppins', 'sans-serif'],
-        sans: ['Poppins', 'sans-serif'] // Hacer Poppins la fuente por defecto
+        sans: ['Poppins', 'sans-serif']
       },
       colors: {
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
+        // Nueva paleta basada en la imagen
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: "#502C48",    // Color 1
+          foreground: "#FFFFFF", // Color 3 (blanco)
+          dark: "#3A1F35",       // Versión oscura del primary
+          light: "#6A3F5C"       // Versión clara del primary
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          DEFAULT: "#662F65",    // Color 2
+          foreground: "#FFFFFF", 
+          dark: "#4C224B",
+          light: "#80437E"
         },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+        success: {
+          DEFAULT: "#38866C",    // Color 4
+          foreground: "#FFFFFF"
         },
         destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+          DEFAULT: "#E22E22",    // Color 6
+          foreground: "#FFFFFF"
         },
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
+        background: "#FFFFFF",   // Color 3
+        foreground: "#000000",   // Color 5
+        card: {
+          DEFAULT: "#FFFFFF",
+          foreground: "#000000"
+        },
+        popover: {
+          DEFAULT: "#FFFFFF",
+          foreground: "#000000"
+        },
+        muted: {
+          DEFAULT: "#F3F4F6",
+          foreground: "#6B7280"
+        },
+        accent: {
+          DEFAULT: "#662F65",    // Usamos secondary
+          foreground: "#FFFFFF"
+        },
+        border: "#E5E7EB",
+        input: "#FFFFFF",
+        ring: "#502C48",         // Color primary
         chart: {
-          "1": "hsl(var(--chart-1))",
-          "2": "hsl(var(--chart-2))",
-          "3": "hsl(var(--chart-3))",
-          "4": "hsl(var(--chart-4))",
-          "5": "hsl(var(--chart-5))",
-        },
+          "1": "#502C48",        // Primary
+          "2": "#662F65",        // Secondary
+          "3": "#38866C",        // Success
+          "4": "#E22E22",        // Destructive
+          "5": "#6A3F5C"         // Primary light
+        }
       },
       borderRadius: {
         lg: "var(--radius)",

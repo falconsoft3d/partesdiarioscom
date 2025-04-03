@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { Grid, Paper, Typography, Button, Box } from '@mui/material';
 
 import React from 'react';
+import { colors } from '@/util/colorTheme';
 
 const Home = () => {
     const router = useRouter();
@@ -62,13 +63,12 @@ const Home = () => {
                         variant="contained"                       
                         startIcon={ <i className="ri-settings-5-fill"></i>}
                         sx={{
-                            mt: 3,
-                            backgroundColor: '#4A6B57', 
+                            mt:3,  
+                            backgroundColor: colors.success.default, 
                             '&:hover': { 
-                                backgroundColor: '#7A9B82' 
+                                backgroundColor: `${colors.success.default}CC` 
                             },
                             borderRadius: '5px'
-                           
                         }}
                         onClick={() => router.push('/config')}
                         fullWidth

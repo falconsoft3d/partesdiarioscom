@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import { Grid, Paper, Typography, Box, Button, Avatar } from '@mui/material';
 import CerrarSesion from './CerrarSesion';
 import { useAuth } from '@/context/AuthContext';
+import { colors } from '@/util/colorTheme';
 
 const Partes = () => {
     const router = useRouter();
@@ -54,9 +55,9 @@ const Partes = () => {
                             fullWidth
                             sx={{
                               
-                                backgroundColor: '#4A6B57', 
+                                backgroundColor: colors.success.default, 
                                 '&:hover': { 
-                                    backgroundColor: '#7A9B82' 
+                                    backgroundColor: `${colors.success.default}CC` 
                                 },
                                 borderRadius: '5px'
                             }}
@@ -73,9 +74,9 @@ const Partes = () => {
                             fullWidth
                             sx={{
                               
-                                backgroundColor: '#4A6B57', 
+                                backgroundColor: colors.success.default, 
                                 '&:hover': { 
-                                    backgroundColor: '#7A9B82' 
+                                    backgroundColor: `${colors.success.default}CC` 
                                 },
                                 borderRadius: '5px'
                             }}
@@ -91,10 +92,10 @@ const Partes = () => {
                             onClick={() => router.push('/config')}
                             fullWidth
                             sx={{
-                               
-                                backgroundColor: '#4A6B57', 
+                              
+                                backgroundColor: colors.success.default, 
                                 '&:hover': { 
-                                    backgroundColor: '#7A9B82' 
+                                    backgroundColor: `${colors.success.default}CC` 
                                 },
                                 borderRadius: '5px'
                             }}
@@ -110,9 +111,9 @@ const Partes = () => {
                             fullWidth
                             sx={{
                               
-                                backgroundColor: '#4A6B57', 
+                                backgroundColor: colors.success.default, 
                                 '&:hover': { 
-                                    backgroundColor: '#7A9B82' 
+                                    backgroundColor: `${colors.success.default}CC` 
                                 },
                                 borderRadius: '5px'
                             }}
@@ -128,9 +129,9 @@ const Partes = () => {
                             fullWidth
                             sx={{
                               
-                                backgroundColor: '#4A6B57', 
+                                backgroundColor: colors.success.default, 
                                 '&:hover': { 
-                                    backgroundColor: '#7A9B82' 
+                                    backgroundColor: `${colors.success.default}CC` 
                                 },
                                 borderRadius: '5px'
                             }}
@@ -146,9 +147,9 @@ const Partes = () => {
                             fullWidth
                             sx={{
                               
-                                backgroundColor: '#4A6B57', 
+                                backgroundColor: colors.success.default, 
                                 '&:hover': { 
-                                    backgroundColor: '#7A9B82' 
+                                    backgroundColor: `${colors.success.default}CC` 
                                 },
                                 borderRadius: '5px'
                             }}
@@ -164,9 +165,9 @@ const Partes = () => {
                             fullWidth
                             sx={{
                               
-                                backgroundColor: '#4A6B57', 
+                                backgroundColor: colors.success.default, 
                                 '&:hover': { 
-                                    backgroundColor: '#7A9B82' 
+                                    backgroundColor: `${colors.success.default}CC` 
                                 },
                                 borderRadius: '5px'
                             }}
