@@ -1,0 +1,102 @@
+'use client';
+
+import { useUrl } from '@/context/UrlContext';
+import useHttpCustomService from '@/services/HttpCustomService';
+import { ApiResponse, FormattedChangePW } from '@/util/types';
+import { validateChangePWField } from '@/util/validation';
+import { Grid, TextField, Button, Typography, Paper, Box } from '@mui/material';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
+import Swal from 'sweetalert2';
+
+const ChangePassword = () => {
+    const router = useRouter();
+    const [errors, setErrors] = useState<Record<string, string>>({});
+    const [formData, setFormData] = useState<FormattedChangePW>({
+        login: '',
+        password: '',
+        "new-password": '',
+        "conf-new-password": ''
+    });
+    const { apiUrl } = useUrl();
+    const { post } = useHttpCustomService();
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({ ...prevState, [name]: value }));
+        const error = validateChangePWField(name, value, formData);
+        setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
+    };
+
+    const submitChangePW = async () => {
+        try {
+            const response = await post<ApiResponse, FormattedChangePW>(`${apiUrl}/bim/diary-part-offline/pwa/change-password`, formData);
+            if (response.result.status === 'ok') {
+                Swal.fire({ icon: 'success', title: '!Actualizado!', text: "Contraseña actualizada correctamente" });
+                router.push('/login');
+            } else {
+                Swal.fire({ icon: 'error', title: 'Error', text: "Ocurrió un error al cambiar la contraseña" });
+            }
+        } catch (error) {
+            Swal.fire({ icon: 'error', title: 'Error', text: `Ocurrió un error al cambiar la contraseña: ${error}` });
+        }
+    };
+
+    return (
+        <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh', backgroundColor: '#f3f4f6' }}>
+            <Grid size ={{xs:12, sm:8 ,md:6, lg:4}} component="div"  sx={{ position: 'relative' }}>
+              {/* Fondo degradado con sombra detrás del Paper */}
+              <Box
+                    sx={{
+                        position: 'absolute',
+                        top: '-5px',
+                        left: '-5px',
+                        right: '-5px',
+                        bottom: '-5px',
+                        background: 'linear-gradient(to right, #A07698, #714B67)',
+                        boxShadow: 5,
+                        transform: 'skewY(-5deg) rotate(-5deg)',
+                        borderRadius: 4,
+                        zIndex: 0,
+                    }}
+                />
+                <Paper elevation={6} sx={{ p: 4, borderRadius: 4, textAlign: 'center', position: 'relative', zIndex: 1 }}>
+                <Grid> <Button
+                startIcon={ <i className="ri-arrow-left-circle-line"></i>}
+                        sx={{ mt: 2, color: '#714B67' }}
+                        onClick={() => router.push('/')}
+                        fullWidth
+                    >
+                        Volver
+                    </Button></Grid>
+                    <Typography variant="h5" align="center" gutterBottom>
+                        Cambiar Contraseña
+                    </Typography>
+                    <Grid container spacing={2}>
+                        <Grid size={{xs:12}} >
+                            <TextField fullWidth label="Correo" type="email" name="login" value={formData.login} onChange={handleChange} error={!!errors.login} helperText={errors.login} />
+                        </Grid>
+                        <Grid size={{xs:12}}>
+                            <TextField fullWidth label="Contraseña anterior" type="password" name="password" value={formData.password} onChange={handleChange} error={!!errors.password} helperText={errors.password} />
+                        </Grid>
+                        <Grid size={{xs:12}}>
+                            <TextField fullWidth label="Nueva Contraseña" type="password" name="new-password" value={formData['new-password']} onChange={handleChange} error={!!errors['new-password']} helperText={errors['new-password']} />
+                        </Grid>
+                        <Grid size={{xs:12}}>
+                            <TextField fullWidth label="Confirmar Nueva Contraseña" type="password" name="conf-new-password" value={formData['conf-new-password']} onChange={handleChange} error={!!errors['conf-new-password']} helperText={errors['conf-new-password']} />
+                        </Grid>
+                        <Grid size={{xs:12}}>
+                            <Button fullWidth variant="contained"startIcon={ <i className="ri-lock-line"></i>}
+                        sx={{mt:3, backgroundColor: '#714B67', '&:hover': { backgroundColor: '#A07698' } ,borderRadius:'100px'}} onClick={submitChangePW}>
+                                Cambiar contraseña
+                            </Button>
+                        </Grid>
+                       
+                    </Grid>
+                </Paper>
+            </Grid>
+        </Grid>
+    );
+};
+
+export default ChangePassword;

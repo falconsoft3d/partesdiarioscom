@@ -1,10 +1,13 @@
-import React from 'react';
-import Pagehome from '@/components/page-home';
+import Home from "../components/Home";
 
-function HomePages() {
+
+
+export default function HomePage() {
+
+  
   return (
-    <Pagehome />
+    
+ <Home/>
   );
 }
 
-export default HomePages;
