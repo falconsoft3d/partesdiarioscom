@@ -5,7 +5,7 @@ import useHttpCustomService from '@/services/HttpCustomService';
 import { colors } from '@/util/colorTheme';
 import { ApiResponse, FormattedChangePW } from '@/util/types';
 import { validateChangePWField } from '@/util/validation';
-import { Grid, TextField, Button, Typography, Paper } from '@mui/material';
+import { Grid, TextField, Button, Typography, Paper, CircularProgress } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 const ChangePassword = () => {
     const router = useRouter();
     const [errors, setErrors] = useState<Record<string, string>>({});
+    const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState<FormattedChangePW>({
         login: '',
         password: '',
@@ -59,15 +60,24 @@ const ChangePassword = () => {
         return;
     }
         try {
+            setIsLoading(true)
             const response = await post<ApiResponse, FormattedChangePW>(`${apiUrl}/bim/diary-part-offline/pwa/change-password`, formData);
             if (response.result.status === 'ok') {
-                Swal.fire({ icon: 'success', title: '!Actualizado!', text: "Contraseña actualizada correctamente" });
-                router.push('/login');
+                setIsLoading(false)
+                Swal.fire({ icon: 'success', title: '!Actualizado!', text: "Contraseña actualizada correctamente", showConfirmButton: false,
+                    timer: 3000, });
+                router.push('/config');
             } else {
-                Swal.fire({ icon: 'error', title: 'Error', text: "Ocurrió un error al cambiar la contraseña" });
+                setIsLoading(false)
+                Swal.fire({ icon: 'error', title: 'Error', text: "Ocurrió un error al cambiar la contraseña", showConfirmButton: false,
+                    timer: 3000, });
             }
         } catch (error) {
-            Swal.fire({ icon: 'error', title: 'Error', text: `Ocurrió un error al cambiar la contraseña: ${error}` });
+            Swal.fire({ icon: 'error', title: 'Error', text: `Ocurrió un error al cambiar la contraseña: ${error}` , showConfirmButton: false,
+                timer: 3000,});
+        }
+        finally {
+            setIsLoading(false);
         }
     };
 
@@ -93,7 +103,7 @@ const ChangePassword = () => {
                 <Grid> <Button
                 startIcon={ <i className="ri-arrow-left-circle-line"></i>}
                         sx={{ mt: 2, color: '#f7f0f5' }}
-                        onClick={() => router.push('/login')}
+                        onClick={() => router.push('/config')}
                         fullWidth
                     >
                         Volver
@@ -113,6 +123,11 @@ const ChangePassword = () => {
                                 '&.Mui-focused fieldset': {
                                     borderColor: '#38866C !important',
                                 },
+                                
+                            }, 
+                            '& .MuiFormHelperText-root': {
+                                color: 'white !important', // Añade !important
+                                fontSize: '0.875rem' // Opcional: ajusta tamaño
                             },
                         }}/>
                         </Grid>
@@ -126,6 +141,11 @@ const ChangePassword = () => {
                                     '&.Mui-focused fieldset': {
                                         borderColor: '#38866C !important',
                                     },
+                                    
+                                },
+                                '& .MuiFormHelperText-root': {
+                                    color: 'white !important', // Añade !important
+                                    fontSize: '0.875rem' // Opcional: ajusta tamaño
                                 },
                             }}/>
                         </Grid>
@@ -139,6 +159,11 @@ const ChangePassword = () => {
                                     '&.Mui-focused fieldset': {
                                         borderColor: '#38866C !important',
                                     },
+                                    
+                                },
+                                '& .MuiFormHelperText-root': {
+                                    color: 'white !important', // Añade !important
+                                    fontSize: '0.875rem' // Opcional: ajusta tamaño
                                 },
                             }}/>
                         </Grid>
@@ -152,6 +177,11 @@ const ChangePassword = () => {
                                     '&.Mui-focused fieldset': {
                                         borderColor: '#38866C !important',
                                     },
+                                    
+                                },
+                                '& .MuiFormHelperText-root': {
+                                    color: 'white !important', // Añade !important
+                                    fontSize: '0.875rem' // Opcional: ajusta tamaño
                                 },
                             }}/>
                         </Grid>
@@ -166,7 +196,15 @@ const ChangePassword = () => {
                         borderRadius: '5px'
                     }}
                     onClick={submitChangePW}>
-                                Cambiar contraseña
+                         {isLoading ? (
+                            <>
+                                <CircularProgress size={24} sx={{ color: 'white', mr: 1 }} />
+                                Por favor espere…
+                            </>
+                        ) : (
+                            ' Cambiar contraseña'
+                        )}
+                               
                             </Button>
                         </Grid>
                        

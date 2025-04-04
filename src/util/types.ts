@@ -39,3 +39,10 @@ export interface AuthContextProps {
     ) => void
     logout: () => void
   }
+
+  export interface Empleado {
+    id: number;
+    nombre: string;
+    edad: number;
+    puesto: string;
+  } 

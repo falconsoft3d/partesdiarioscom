@@ -3,9 +3,10 @@
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { Grid, Paper, Typography, Box, Button, Avatar } from '@mui/material';
-import CerrarSesion from './CerrarSesion';
+// import CerrarSesion from './CerrarSesion';
 import { useAuth } from '@/context/AuthContext';
 import { colors } from '@/util/colorTheme';
+import { decryptData } from '@/util/encrypt';
 
 const Partes = () => {
     const router = useRouter();
@@ -35,14 +36,14 @@ const Partes = () => {
                     }}
                 /> */}
                 <Paper elevation={6} sx={{ p: 4, borderRadius: 4, textAlign: 'center', position: 'relative', zIndex: 1,backgroundColor: '#714B67' }}>
-                <CerrarSesion/>
+                {/* <CerrarSesion/> */}
                     {/* Ícono centrado arriba */}
                     <Box  sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center',color: '#f7f0f5' ,alignItems: 'center' }}>
                     <Avatar  sx={{ width: 56, height: 56 }} alt="Remy Sharp" src="/images/avatar/1.png" />
     <Typography variant="h6" sx={{  color: 'primary.contrastText', 
                 mb: 2,
                 fontFamily: "'Poppins', sans-serif" }}>
-        {user.partesDiarios_usuario}
+        {decryptData(user.partesDiarios_usuario)}
     </Typography>
 </Box>
 
@@ -70,7 +71,7 @@ const Partes = () => {
                         <Button
                             variant="contained"
                             startIcon={<i className="ri-user-2-line"></i>}
-                            onClick={() => router.push('/config')}
+                            onClick={() => router.push('/empleados')}
                             fullWidth
                             sx={{
                               
@@ -89,7 +90,7 @@ const Partes = () => {
                         <Button
                             variant="contained"
                             startIcon={<i className="ri-team-fill"></i>}
-                            onClick={() => router.push('/config')}
+                            // onClick={() => router.push('/config')}
                             fullWidth
                             sx={{
                               
@@ -107,7 +108,7 @@ const Partes = () => {
                         <Button
                             variant="contained"
                             startIcon={<i className="ri-line-chart-line"></i>}
-                            onClick={() => router.push('/config')}
+                            //onClick={() => router.push('/config')}
                             fullWidth
                             sx={{
                               
@@ -125,7 +126,7 @@ const Partes = () => {
                         <Button
                             variant="contained"
                             startIcon={<i className="ri-time-line"></i>}
-                            onClick={() => router.push('/config')}
+                            //onClick={() => router.push('/config')}
                             fullWidth
                             sx={{
                               
@@ -143,7 +144,7 @@ const Partes = () => {
                         <Button
                             variant="contained"
                             startIcon={<i className="ri-message-2-line"></i>}
-                            onClick={() => router.push('/config')}
+                           // onClick={() => router.push('/config')}
                             fullWidth
                             sx={{
                               
@@ -161,7 +162,7 @@ const Partes = () => {
                         <Button
                             variant="contained"
                             startIcon={<i className="ri-multi-image-line"></i>}
-                            onClick={() => router.push('/config')}
+                            //onClick={() => router.push('/config')}
                             fullWidth
                             sx={{
                               

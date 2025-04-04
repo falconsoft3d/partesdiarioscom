@@ -1,6 +1,7 @@
-import Configuration from "@/components/Configuration";
+
+import Login from "@/components/Login";
 
 
 export default function ConfigPage() {
-  return <Configuration />;
+  return <Login />;
 }

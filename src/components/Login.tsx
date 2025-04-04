@@ -8,15 +8,9 @@ import { validateUserField } from '@/util/validation';
 import useHttpCustomService from '@/services/HttpCustomService';
 import Swal from 'sweetalert2';
 import Link from 'next/link';
-import { useUrl } from '@/context/UrlContext';
 import { useAuth } from '@/context/AuthContext';
 import { colors } from '@/util/colorTheme';
-
-
-// Función simple de encriptación (solo para demostración)
-const encryptPassword = (password: string) => {
-    return btoa(password) // Esto es una codificación en Base64, no una encriptación segura
-  }
+import { encryptData, encryptPassword } from '@/util/encrypt';
 
 const Login = () => {
     const router = useRouter();
@@ -27,17 +21,13 @@ const Login = () => {
         password: '',
         url: ''
     });
-    const { post } = useHttpCustomService();
-    const { setApiUrl,apiUrl } = useUrl();
+    const { post } = useHttpCustomService();   
     const [isLoading, setIsLoading] = useState(false);
     const [isPasswordShown, setIsPasswordShown] = useState(false)
     const { login,isAuthenticated } = useAuth();
 
     useEffect(() => {
-        // Cargar datos guardados al iniciar el componente
-        const savedUrl = localStorage.getItem("partesDiarios_url")
-               
-        if (savedUrl) setApiUrl(savedUrl)
+        
         if (isAuthenticated) {
                 router.push('/home')
             }
@@ -58,6 +48,10 @@ const Login = () => {
     // Validar contraseña
     const passwordError = validateUserField('password', formData.password);
     if (passwordError) newErrors.password = passwordError;
+      // Validar contraseña
+      const urlError = validateUserField('url', formData.url);
+      if (urlError) newErrors.url = urlError;
+      
     
     // Si hay errores, mostrar alerta y actualizar estado
     if (Object.keys(newErrors).length > 0) {
@@ -80,7 +74,7 @@ const Login = () => {
         try {
 setIsLoading(true)
 
-            const response = await post<ApiResponse, FormattedUser>(`${apiUrl}/bim/diary-part-offline/pwa/login`, formData);
+            const response = await post<ApiResponse, FormattedUser>(`${formData.url}/bim/diary-part-offline/pwa/login`, formData);
 
             if (response.result.status === 'ok') {
                 setIsLoading(false)
@@ -88,17 +82,20 @@ setIsLoading(true)
                     icon: 'success',
                     title: '!Logeado!',
                     text: "Usuario logeado correctamente",
+                    showConfirmButton: false,
+                    timer: 3000,
                 });
-                localStorage.setItem("partesDiarios_usuario", formData.login)
-                localStorage.setItem("partesDiarios_contrasena", encryptPassword(formData.password))                
+                const hashedPassword = await encryptPassword(formData.password);       
                 console.log("Configuración guardada en localStorage")
-                login(formData.login, encryptPassword(formData.password), apiUrl);
+                login(encryptData(formData.login), hashedPassword, encryptData(formData.url));
             } else {
                 setIsLoading(false)
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
                     text: "Usuario o contraseña incorrectos",
+                    showConfirmButton: false,
+                    timer: 3000,
                 });
             }
         } catch (error) {
@@ -106,6 +103,8 @@ setIsLoading(true)
                 icon: 'error',
                 title: 'Error',
                 text: `Ocurrió un problema en el login: ${error}`,
+                showConfirmButton: false,
+                timer: 3000,
             });
         }finally {
             setIsLoading(false);
@@ -158,7 +157,7 @@ setIsLoading(true)
                     <Typography variant="h5" fontWeight={600} sx={{  color: 'primary.contrastText', 
                 mb: 2,
                 fontFamily: "'Poppins', sans-serif" }}>
-                        Login
+                        Configuración
                     </Typography>
                     <TextField
                         fullWidth
@@ -178,6 +177,10 @@ setIsLoading(true)
                                 '&.Mui-focused fieldset': {
                                     borderColor: '#38866C !important',
                                 },
+                                
+                            }, '& .MuiFormHelperText-root': {
+                                color: 'white !important', // Añade !important
+                                fontSize: '0.875rem' // Opcional: ajusta tamaño
                             },
                         }}
                         InputProps={{
@@ -197,6 +200,7 @@ setIsLoading(true)
                     />
                     <TextField
                         fullWidth
+                        
                         placeholder="Tu Contraseña"
                         type={isPasswordShown ? 'text' : 'password'}
                         name="password"
@@ -213,6 +217,11 @@ setIsLoading(true)
                                 '&.Mui-focused fieldset': {
                                     borderColor: '#38866C !important',
                                 },
+                                
+                            
+                            }, '& .MuiFormHelperText-root': {
+                                color: 'white !important', // Añade !important
+                                fontSize: '0.875rem' // Opcional: ajusta tamaño
                             },
                         }}
                         InputProps={{
@@ -230,12 +239,39 @@ setIsLoading(true)
                             )
                           }}
                     />
+                    <TextField
+    fullWidth
+    disabled={isLoading}
+    type='url'
+    placeholder='https://test-codemon.demos-odoo.com/'
+    name="url"
+    value={formData.url}
+    onChange={handleChange}
+    error={Boolean(errors.url)}
+    helperText={errors.url ? errors.url : " "}
+    sx={{ 
+        mb: 3,
+        '& .MuiOutlinedInput-root': {
+            backgroundColor: 'white',
+            borderRadius: '8px',
+            '&.Mui-focused fieldset': {
+                borderColor:  '#38866C !important',
+            },
+        },
+        '& .MuiFormHelperText-root': {
+            color: 'white !important', // Añade !important
+            fontSize: '0.875rem' // Opcional: ajusta tamaño
+        },
+    }}
+/>
+
+                    
                     <Link href="/changepw" style={{ display: 'block', marginBottom: '16px', textAlign: 'center' ,color: '#f7f0f5'}}>
                         Cambiar contraseña
                     </Link>
                     <Button
                         variant="contained"
-                        startIcon={<i className="ri-login-box-line"></i>}
+                        startIcon={<i className="ri-save-line"></i>}
                         sx={{
                               
                             backgroundColor: colors.success.default, 
@@ -253,7 +289,7 @@ setIsLoading(true)
                                 Por favor espere…
                             </>
                         ) : (
-                            'Entrar'
+                            'Guardar Configuración'
                         )}
                     </Button>
                 </Paper>

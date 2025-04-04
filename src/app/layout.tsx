@@ -3,7 +3,7 @@ import "./globals.css";
 import "remixicon/fonts/remixicon.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { UrlProvider } from "@/context/UrlContext";
-import Head from "next/head";
+import { AnimatePresence } from "framer-motion";
 
 
 
@@ -20,18 +20,16 @@ export default function RootLayout({
   return (
     <AuthProvider>
       <UrlProvider>
+      <AnimatePresence mode="wait">
     <html id='__next' lang="en" >
-       <link rel="manifest" href="/manifest.json" />
-      <Head> <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
-    rel="stylesheet"
-  /></Head>
+       <link rel="manifest" href="/manifest.json" />     
       <body
         className="bg-blue-200"
       >
         {children}
       </body>
     </html>
+    </AnimatePresence>
     </UrlProvider>
     </AuthProvider>
   );
