@@ -30,22 +30,34 @@ const Home = () => {
                 /> */}
                 <Paper elevation={4} sx={{ padding: 4, borderRadius: 4, textAlign: 'center', position: 'relative' ,backgroundColor: '#714B67'}}>
                     {/* Ícono centrado arriba */}
-                    <Box display="flex" justifyContent="center" alignItems="center" mt={2}>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={2}
-                            stroke="currentColor"
-                            className="w-12 h-12 text-white"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M7 8h10M7 12h10m-6 4h6M6 3h12l3 3v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6l2-3z"
-                            />
-                        </svg>
-                    </Box>
+                    <Box 
+    display="flex"  
+    justifyContent="center" 
+    alignItems="center"
+    sx={{ 
+        color: 'white', 
+      
+    }} 
+    mt={2}
+>
+    <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        fill="none" 
+        viewBox="0 0 24 24" 
+        strokeWidth={2} 
+        stroke="currentColor" 
+        width="150" 
+        height="150" // Ajusta el tamaño aquí si lo necesitas
+        style={{ color: 'white' }} // Asegura que el color sea blanco
+    > 
+        <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            d="M7 8h10M7 12h10m-6 4h6M6 3h12l3 3v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6l2-3z" 
+        /> 
+    </svg>
+</Box>
+
                     
                     <Typography variant="h5" fontWeight={600} sx={{  color: 'primary.contrastText', 
                 mt: 2,

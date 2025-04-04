@@ -79,6 +79,7 @@ const Configuration = () => {
                     </Typography>
                     <TextField
                         fullWidth
+                        required
                         type='url'
                         placeholder='https://test-codemon.demos-odoo.com/'
                         value={url}
@@ -96,6 +97,9 @@ const Configuration = () => {
                                 '&.Mui-focused fieldset': {
                                     borderColor: validateURL(url) ? 'red !important' : '#38866C !important',
                                 },
+                            },
+                            '& .MuiFormHelperText-root': {
+                                color: 'white', // Cambia el color del texto de error a blanco
                             },
                         }}
                         

@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     //setToken(null);
     setIsAuthenticated(false);
     localStorage.clear(); // Borra toda la información almacenada
-    router.push("/login"); // Redirigir al login
+    router.push("/config"); // Redirigir al login
   };
 
   return (

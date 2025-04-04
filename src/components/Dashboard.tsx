@@ -13,7 +13,7 @@ const Dashboard = () => {
     useEffect(() => {
         
         if (!isAuthenticated) {
-                router.push('/login')
+                router.push('/config')
             }
        
       }, [])
@@ -44,7 +44,9 @@ const Dashboard = () => {
                             viewBox="0 0 24 24"
                             strokeWidth={2}
                             stroke="currentColor"
-                            className="w-12 h-12 text-white"
+                           color='white'
+                           width={150}
+                           height={150}
                         >
                             <path
                                 strokeLinecap="round"
