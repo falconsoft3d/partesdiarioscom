@@ -28,14 +28,14 @@ const CerrarSesion = () => {
     return (
         <Box  sx={{ display: 'flex', justifyContent: 'flex-end' }} >
         <Fab onClick={handleLogout}  sx={{
-                              
+                              color:'#fff',
                               backgroundColor: colors.success.default, 
                               '&:hover': { 
                                   backgroundColor: `${colors.success.default}CC` 
                               },
                              
                           }} title='Cerrar sesion' aria-label="add">
-<i className='ri-logout-box-line'></i>
+<i className='ri-logout-box-line text-white'></i>
 </Fab>
         </Box>
     )

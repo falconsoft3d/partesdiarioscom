@@ -1,8 +1,15 @@
 export interface FormattedUser {
-    id: number;
+    id?: number;
     login:string;
     password:string;
     url:string;
+}
+
+export interface FormattedUserNew {
+  id?: number;
+  usuario:string;
+  password:string;
+  url:string;
 }
 
 export interface FormattedChangePW {
@@ -43,6 +50,81 @@ export interface AuthContextProps {
   export interface Empleado {
     id: number;
     nombre: string;
-    edad: number;
-    puesto: string;
+    edad?: number;
+    puesto?: string;
   } 
+
+
+  /**
+ * Representa la configuración principal del sistema con sus relaciones
+ */
+export interface IConfiguracion {
+  /**
+   * ID único de la configuración (autoincremental)
+   */
+  id: number;
+  
+  /**
+   * ID relacionado a ODT (Orden de Trabajo)
+   */
+  odtId: number;
+  
+  /**
+   * ID relacionado a PSP (Proceso de Servicio Profesional)
+   */
+  pspId: number;
+  
+  /**
+   * ID relacionado al presupuesto
+   */
+  budgetId: number;
+  
+  /**
+   * Código identificador de la ODT
+   */
+  codeOdt: string;
+  
+  /**
+   * Código identificador del PSP
+   */
+  codePsp: string;
+  
+  /**
+   * Código identificador del presupuesto
+   */
+  codeBudget: string;
+  
+  /**
+   * Nombre descriptivo de la configuración
+   */
+  denominacion: string;
+  
+  /**
+   * ID del usuario relacionado (clave foránea)
+   */
+  userId: number;
+}
+
+/**
+ * Tipo para crear una nueva configuración (sin el ID autogenerado)
+ */
+export type CreateConfig = Omit<IConfiguracion, 'id'>;
+
+/**
+ * Tipo para actualizar una configuración (todos los campos opcionales excepto el ID)
+ */
+export type UpdateConfig = Partial<CreateConfig> & { id: number };
+
+export interface EmpleadoConfig {
+  id: number;
+  empleado_id: number;
+  configuracion_id: number;
+  valor: string;
+  created_at?: Date;
+}
+
+export interface CreateEmpleadoConfig {
+  empleado_id: number;
+  configuracion_id: number;
+  valor: string;
+}

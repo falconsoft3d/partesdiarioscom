@@ -11,6 +11,8 @@ import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { colors } from '@/util/colorTheme';
 import { encryptData, encryptPassword } from '@/util/encrypt';
+import { guardarUsuario } from '@/app/api/usuarios/services/usuariosService';
+
 
 const Login = () => {
     const router = useRouter();
@@ -73,21 +75,30 @@ const Login = () => {
     }
         try {
 setIsLoading(true)
-
+console.log(formData);
             const response = await post<ApiResponse, FormattedUser>(`${formData.url}/bim/diary-part-offline/pwa/login`, formData);
+console.log(response);
 
             if (response.result.status === 'ok') {
-                setIsLoading(false)
-                Swal.fire({
-                    icon: 'success',
-                    title: '!Logeado!',
-                    text: "Usuario logeado correctamente",
-                    showConfirmButton: false,
-                    timer: 3000,
-                });
+              
                 const hashedPassword = await encryptPassword(formData.password);       
                 console.log("Configuración guardada en localStorage")
+                await guardarUsuario({
+                    usuario: encryptData(formData.login),
+                    password: hashedPassword,
+                    url: encryptData(formData.url),
+                  });
                 login(encryptData(formData.login), hashedPassword, encryptData(formData.url));
+                // Luego llamás al servicio para guardar en SQLite
+
+  setIsLoading(false)
+  Swal.fire({
+      icon: 'success',
+      title: '!Logeado!',
+      text: "Usuario logeado correctamente",
+      showConfirmButton: false,
+      timer: 3000,
+  });
             } else {
                 setIsLoading(false)
                 Swal.fire({
@@ -129,7 +140,7 @@ setIsLoading(true)
     };
 
     return (
-        <Grid container justifyContent="center" alignItems="center" sx={{ minHeight: '100vh', p: 2, backgroundColor: '#E3D5DF' }}>
+        <Grid container justifyContent="center" alignItems="center" sx={{ minHeight: '100vh', p: 2}}>
             <Grid size ={{xs:12, sm:8 ,md:6, lg:4}} component="div" sx={{ position: 'relative' }}>
                 {/* <Box
                     sx={{
