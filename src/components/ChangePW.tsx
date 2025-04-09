@@ -82,7 +82,7 @@ const ChangePassword = () => {
     };
 
     return (
-        <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh', backgroundColor: '#f3f4f6' }}>
+        <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh' }}>
             <Grid size ={{xs:12, sm:8 ,md:6, lg:4}} component="div"  sx={{ position: 'relative' }}>
               {/* Fondo degradado con sombra detrás del Paper
               <Box

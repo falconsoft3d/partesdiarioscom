@@ -24,7 +24,7 @@ export default function RootLayout({
     <html id='__next' lang="en" >
        <link rel="manifest" href="/manifest.json" />     
       <body
-        className="bg-blue-200"
+        style={{backgroundColor: '#E3D5DF'}}
       >
         {children}
       </body>

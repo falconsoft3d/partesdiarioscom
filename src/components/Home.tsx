@@ -3,14 +3,22 @@
 import { useRouter } from 'next/navigation';
 import { Grid, Paper, Typography, Button, Box } from '@mui/material';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { colors } from '@/util/colorTheme';
+import { useAuth } from '@/context/AuthContext';
 
 const Home = () => {
     const router = useRouter();
-
+    const { isAuthenticated } = useAuth();
+    useEffect(() => {
+        
+        if (isAuthenticated) {
+                router.push('/home')
+            }
+       
+      }, [])
     return (
-        <Grid  container justifyContent="center" alignItems="center" style={{ minHeight: '100vh', padding: '1rem' ,backgroundColor: '#E3D5DF'}}>
+        <Grid  container justifyContent="center" alignItems="center" style={{ minHeight: '100vh', padding: '1rem'}}>
            
             <Grid size ={{xs:12, sm:8 ,md:6, lg:4}} component="div" sx={{ position: 'relative' }}>
                  {/* Fondo degradado con sombra detrás del Paper
