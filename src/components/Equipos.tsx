@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import React, { useEffect, useMemo, useState } from 'react'
 import PageTransition from './ui/pageTransition'
@@ -228,9 +229,9 @@ const agregarFila = ()=>{
 
 useEffect(() => {
         
-  if (!isAuthenticated) {
-          router.push('/config')
-      }
+  // if (!isAuthenticated) {
+  //         router.push('/config')
+  //     }
 
 
   const loadData = async () => {

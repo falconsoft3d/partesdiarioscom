@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useRouter } from 'next/navigation';
@@ -12,9 +13,9 @@ const Dashboard = () => {
     const { isAuthenticated } = useAuth();
     useEffect(() => {
         
-        if (!isAuthenticated) {
-                router.push('/config')
-            }
+        // if (!isAuthenticated) {
+        //         router.push('/config')
+        //     }
        
       }, [])
     return (
