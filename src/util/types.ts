@@ -12,6 +12,21 @@ export interface FormattedUserNew {
   url:string;
 }
 
+export interface FormattedComentarios {
+  id?: number;
+  comentario:string;
+  id_usuario:number;
+  createdDate:Date;
+}
+
+export interface FormattedFotos {
+  id?: number;
+  foto:string;
+  observacion:string;
+  id_usuario:number;
+  createdDate:Date;
+}
+
 export interface FormattedChangePW {
     "login":string;
     "password":string;

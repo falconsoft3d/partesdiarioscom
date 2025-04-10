@@ -13,9 +13,9 @@ const Partes = () => {
     const { isAuthenticated,user } = useAuth();
     useEffect(() => {
         
-        if (!isAuthenticated) {
-                router.push('/login')
-            }
+        // if (!isAuthenticated) {
+        //         router.push('/login')
+        //     }
        
       }, [])
     return (
@@ -90,7 +90,7 @@ const Partes = () => {
                         <Button
                             variant="contained"
                             startIcon={<i className="ri-team-fill"></i>}
-                            // onClick={() => router.push('/config')}
+                             onClick={() => router.push('/equipos')}
                             fullWidth
                             sx={{
                               
@@ -108,7 +108,7 @@ const Partes = () => {
                         <Button
                             variant="contained"
                             startIcon={<i className="ri-line-chart-line"></i>}
-                            //onClick={() => router.push('/config')}
+                            onClick={() => router.push('/lineavance')}
                             fullWidth
                             sx={{
                               
@@ -144,7 +144,7 @@ const Partes = () => {
                         <Button
                             variant="contained"
                             startIcon={<i className="ri-message-2-line"></i>}
-                           // onClick={() => router.push('/config')}
+                            onClick={() => router.push('/comentarios')}
                             fullWidth
                             sx={{
                               
@@ -162,7 +162,7 @@ const Partes = () => {
                         <Button
                             variant="contained"
                             startIcon={<i className="ri-multi-image-line"></i>}
-                            //onClick={() => router.push('/config')}
+                            onClick={() => router.push('/fotos')}
                             fullWidth
                             sx={{
                               
