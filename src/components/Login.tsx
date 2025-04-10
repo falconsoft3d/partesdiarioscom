@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import { Grid, Paper, Typography, Button,  TextField, CircularProgress, InputAdornment, IconButton } from '@mui/material';
@@ -73,53 +74,56 @@ const Login = () => {
         });
         return;
     }
-        try {
-setIsLoading(true)
-console.log(formData);
-            const response = await post<ApiResponse, FormattedUser>(`${formData.url}/bim/diary-part-offline/pwa/login`, formData);
-console.log(response);
 
-            if (response.result.status === 'ok') {
+    router.push('/home')
+
+//         try {
+// setIsLoading(true)
+// console.log(formData);
+//             const response = await post<ApiResponse, FormattedUser>(`${formData.url}/bim/diary-part-offline/pwa/login`, formData);
+// console.log(response);
+
+//             if (response.result.status === 'ok') {
               
-                const hashedPassword = await encryptPassword(formData.password);       
-                console.log("Configuración guardada en localStorage")
-                await guardarUsuario({
-                    usuario: encryptData(formData.login),
-                    password: hashedPassword,
-                    url: encryptData(formData.url),
-                  });
-                login(encryptData(formData.login), hashedPassword, encryptData(formData.url));
-                // Luego llamás al servicio para guardar en SQLite
+//                 const hashedPassword = await encryptPassword(formData.password);       
+//                 console.log("Configuración guardada en localStorage")
+//                 await guardarUsuario({
+//                     usuario: encryptData(formData.login),
+//                     password: hashedPassword,
+//                     url: encryptData(formData.url),
+//                   });
+//                 login(encryptData(formData.login), hashedPassword, encryptData(formData.url));
+//                 // Luego llamás al servicio para guardar en SQLite
 
-  setIsLoading(false)
-  Swal.fire({
-      icon: 'success',
-      title: '!Logeado!',
-      text: "Usuario logeado correctamente",
-      showConfirmButton: false,
-      timer: 3000,
-  });
-            } else {
-                setIsLoading(false)
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: "Usuario o contraseña incorrectos",
-                    showConfirmButton: false,
-                    timer: 3000,
-                });
-            }
-        } catch (error) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: `Ocurrió un problema en el login: ${error}`,
-                showConfirmButton: false,
-                timer: 3000,
-            });
-        }finally {
-            setIsLoading(false);
-        }
+//   setIsLoading(false)
+//   Swal.fire({
+//       icon: 'success',
+//       title: '!Logeado!',
+//       text: "Usuario logeado correctamente",
+//       showConfirmButton: false,
+//       timer: 3000,
+//   });
+//             } else {
+//                 setIsLoading(false)
+//                 Swal.fire({
+//                     icon: 'error',
+//                     title: 'Error',
+//                     text: "Usuario o contraseña incorrectos",
+//                     showConfirmButton: false,
+//                     timer: 3000,
+//                 });
+//             }
+//         } catch (error) {
+//             Swal.fire({
+//                 icon: 'error',
+//                 title: 'Error',
+//                 text: `Ocurrió un problema en el login: ${error}`,
+//                 showConfirmButton: false,
+//                 timer: 3000,
+//             });
+//         }finally {
+//             setIsLoading(false);
+//         }
     };
     const handleClickShowPassword = () => setIsPasswordShown(show => !show)
 
