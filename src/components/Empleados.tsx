@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import React, { useEffect, useMemo, useState } from 'react'
 import PageTransition from './ui/pageTransition'
@@ -10,6 +9,7 @@ import { Empleado, EmpleadoConfig } from '@/util/types';
 import { colors } from '@/util/colorTheme';
 import { useAuth } from '@/context/AuthContext';
 import Swal from 'sweetalert2';
+import CerrarSesion from './CerrarSesion';
 // Nueva interfaz para la configuración
 interface Configuracion {
   id: number;
@@ -150,7 +150,7 @@ console.log(max);
   const nuevaCol: GridColDef = {
     field: num.toString(),
     headerName: num.toString(),
-    width: 50,
+    width: 100,
     editable: true,
     renderHeader: () => (
       <Tooltip title={`${odt} | ${pcp} | ${presupuesto}`}>
@@ -218,52 +218,54 @@ const agregarFila = ()=>{
   setEmpleados((prev) => [...prev, nuevoEmpleado]);
 }
 
+
+const loadData = async () => {
+  try {
+      // Cargar configuraciones
+      const configResponse = await fetch('/api/configuracion');
+      const configData = await configResponse.json();
+      
+      if (configData.success) {
+          setConfiguraciones(configData.data);
+          
+          // Cargar relaciones empleado-config
+          const empleadoConfigResponse = await fetch('/api/empleado-config');
+          const empleadoConfigData = await empleadoConfigResponse.json();
+          
+          if (empleadoConfigData.success) {
+              setEmpleadoConfigs(empleadoConfigData.data);
+              
+              // Mapear valores a empleados
+              setEmpleados(prev => prev.map(emp => ({
+                  ...emp,
+                  ...configData.data.reduce((acc: { [key: string]: string }, cfg: Configuracion) => {
+                      const configValue = empleadoConfigData.data.find(
+                          (ec: EmpleadoConfig) => 
+                              ec.empleado_id === emp.id && 
+                              ec.configuracion_id === cfg.id
+                      );
+                      acc[cfg.denominacion] = configValue?.valor || '';
+                      return acc;
+                  }, {})
+              })));
+          }
+      }
+  } catch (error) {
+      console.error('Error loading data:', error);
+  }
+};
+
 useEffect(() => {
         
-  // if (!isAuthenticated) {
-  //         router.push('/config')
-  //     }
+  if (!isAuthenticated) {
+          router.push('/config')
+      }
 
 
-  const loadData = async () => {
-    try {
-        // Cargar configuraciones
-        const configResponse = await fetch('/api/configuracion');
-        const configData = await configResponse.json();
-        
-        if (configData.success) {
-            setConfiguraciones(configData.data);
-            
-            // Cargar relaciones empleado-config
-            const empleadoConfigResponse = await fetch('/api/empleado-config');
-            const empleadoConfigData = await empleadoConfigResponse.json();
-            
-            if (empleadoConfigData.success) {
-                setEmpleadoConfigs(empleadoConfigData.data);
-                
-                // Mapear valores a empleados
-                setEmpleados(prev => prev.map(emp => ({
-                    ...emp,
-                    ...configData.data.reduce((acc: { [key: string]: string }, cfg: Configuracion) => {
-                        const configValue = empleadoConfigData.data.find(
-                            (ec: EmpleadoConfig) => 
-                                ec.empleado_id === emp.id && 
-                                ec.configuracion_id === cfg.id
-                        );
-                        acc[cfg.denominacion] = configValue?.valor || '';
-                        return acc;
-                    }, {})
-                })));
-            }
-        }
-    } catch (error) {
-        console.error('Error loading data:', error);
-    }
-};
 loadData();
 
 setColumnas(col);
-}, [col,setColumnas])
+}, [setColumnas])
    
 
     return (
@@ -272,7 +274,7 @@ setColumnas(col);
             <Grid size ={{xs:12, sm:8 ,md:6, lg:4}} component="div" sx={{ position: 'relative' }}>
                
                 <Paper elevation={6} sx={{ p: 3, borderRadius: 4, textAlign: 'center', position: 'relative', zIndex: 1,backgroundColor: '#714B67' }}>
-                {/* <CerrarSesion/> */}
+                <CerrarSesion/>
                     {/* Ícono centrado arriba */}
                     <Box  sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center',color: '#f7f0f5' ,alignItems: 'center',width: "100%" }}>
                     <Button

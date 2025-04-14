@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 'use client'
 
 import { Avatar, Box, Button, Grid, IconButton, Paper, TextField, Typography } from "@mui/material"
@@ -10,6 +10,7 @@ import { styled } from '@mui/material/styles';
 import { guardarFotos } from "@/app/api/fotos/services/fotosService";
 import Swal from "sweetalert2";
 import { useAuth } from "@/context/AuthContext";
+import CerrarSesion from "./CerrarSesion";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -23,12 +24,12 @@ const Fotos = () => {
   const router = useRouter();
 
   const [photos, setPhotos] = useState<{ preview: string; comment: string }[]>([]);
-  const { isAuthenticated,user } = useAuth();
+  const { isAuthenticated } = useAuth();
   useEffect(() => {
       
-      // if (!isAuthenticated) {
-      //         router.push('/login')
-      //     }
+      if (!isAuthenticated) {
+              router.push('/login')
+          }
      
     }, [])
 
@@ -116,6 +117,7 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       <Grid container justifyContent="center" alignItems="center" sx={{ minHeight: '150vh', p: 2 }}>
         <Grid size ={{xs:12, sm:8 ,md:6, lg:4}}>
           <Paper elevation={6} sx={{ p: 3, borderRadius: 4, textAlign: 'center', backgroundColor: '#714B67' }}>
+          <CerrarSesion/>
             <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', color: '#f7f0f5', alignItems: 'center', width: "100%" }}>
               <Button
                 startIcon={<i className="ri-arrow-left-circle-line"></i>}
