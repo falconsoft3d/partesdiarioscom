@@ -1,14 +1,16 @@
 import sqlite3 from 'better-sqlite3';
 import { join } from 'path';
-import { existsSync } from 'fs';
+import { existsSync, copyFileSync } from 'fs';
 
-const dbPath = join(process.cwd(), 'partesdiarios.sqlite');
+const originalDbPath = join(process.cwd(), 'partesdiarios.sqlite');
+const dbPath = '/tmp/partesdiarios.sqlite';
 
-// Verifica si el archivo de la BD ya existe antes de abrir la conexión
+// Si no existe en /tmp, cópiala desde la raíz del proyecto
 if (!existsSync(dbPath)) {
-    console.log(`⚠️ La base de datos no existe en ${dbPath}. Creando una nueva...`);
+    console.log(`📦 Copiando base de datos a ${dbPath}`);
+    copyFileSync(originalDbPath, dbPath);
 } else {
-    console.log(`✅ Usando base de datos existente en ${dbPath}`);
+    console.log(`✅ Usando base de datos temporal en ${dbPath}`);
 }
 
 const db = new sqlite3(dbPath);
