@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 'use client'
 import {
   Avatar, Box, Button, Container, Grid, Paper,
@@ -10,18 +10,19 @@ import { useEffect, useState } from "react";
 import { guardarComentarios } from "@/app/api/comentarios/services/comentariosService";
 import Swal from "sweetalert2";
 import { useAuth } from "@/context/AuthContext";
+import CerrarSesion from "./CerrarSesion";
 
 const Comentarios = () => {
   const router = useRouter();
 
   const [comentario, setComentario] = useState("Mihai Viteazul, also known as Michael the Brave, was a Romanian prince who ruled in the late 16th century. He is celebrated for his efforts to unite the three historical provinces of Wallachia, Transylvania, and Moldavia into a single country.");
   const [comentarioUsuario, setComentarioUsuario] = useState("");
-  const { isAuthenticated,user } = useAuth();
+  const { isAuthenticated } = useAuth();
   useEffect(() => {
       
-      // if (!isAuthenticated) {
-      //         router.push('/login')
-      //     }
+      if (!isAuthenticated) {
+              router.push('/login')
+          }
      
     }, [])
 
@@ -56,6 +57,7 @@ if (result.status === 200) {
       <Grid container justifyContent="center" alignItems="center" sx={{ minHeight: '150vh', p: 2 }}>
         <Grid size ={{xs:12, sm:8 ,md:6, lg:4}} component="div" sx={{ position: 'relative' }}>
           <Paper elevation={6} sx={{ p: 3, borderRadius: 4, textAlign: 'center', position: 'relative', zIndex: 1, backgroundColor: '#714B67' }}>
+          <CerrarSesion/>
             <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', color: '#f7f0f5', alignItems: 'center', width: "100%" }}>
               <Button
                 startIcon={<i className="ri-arrow-left-circle-line"></i>}
@@ -80,8 +82,7 @@ if (result.status === 200) {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                py: 10,
-                px: 2,
+              
               }}
             >
               <Container maxWidth="md" sx={{ mt: 4 }}>
@@ -89,7 +90,7 @@ if (result.status === 200) {
 
                   {/* Entrada usuario */}
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                    <Avatar sx={{ bgcolor: 'white', color: 'black', width: 40, height: 40 }}>
+                    <Avatar sx={{ bgcolor: 'white', color: 'black', width: 60, height: 60 }}>
                       <i className="ri-user-line" />
                     </Avatar>
                     <Paper
@@ -101,11 +102,13 @@ if (result.status === 200) {
                         alignItems: 'center',
                         borderRadius: '8px',
                         backdropFilter: 'blur(10px)',
+                        height: '100px',
                       }}
                     >
                       <TextField
                         fullWidth
                         multiline
+                        rows={4}
                         value={comentarioUsuario}
                         onChange={(e) => setComentarioUsuario(e.target.value)}
                         placeholder="Escribe tu comentario aquí"
@@ -121,10 +124,11 @@ if (result.status === 200) {
                             color: 'white !important',
                             fontSize: '0.875rem'
                           },
+                          
                         }}
                       />
-                      <Box sx={{ p: 2, cursor: 'pointer',backgroundColor: '#38866C' }}>
-                      <i title="Enviar comentario" className="ri-send-plane-fill " onClick={addComentarios}></i>
+                      <Box sx={{ p: 1.5, cursor: 'pointer', height: '100%',backgroundColor: '#38866C',borderRadius: '8px',display: 'flex',alignItems: 'center',justifyContent: 'center' }}>
+                      <i title="Enviar comentario" className="ri-send-plane-fill" onClick={addComentarios}></i>
                         </Box>     
                      
                     </Paper>
@@ -137,8 +141,7 @@ if (result.status === 200) {
                         bgcolor: 'transparent',
                         border: '1px solid #27272a',
                         color: 'white',
-                        width: 40,
-                        height: 40,
+                        width: 60, height: 60
                       }}
                     >
                       <i className="ri-user-line" />
@@ -150,7 +153,7 @@ if (result.status === 200) {
                         bgcolor: 'rgba(255,255,255,0.05)',
                         backdropFilter: 'blur(10px)',
                         color: 'white',
-                        fontSize: '1rem',
+                        fontSize: '18px',
                         width: '100%'
                       }}
                     >

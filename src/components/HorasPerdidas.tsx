@@ -24,8 +24,8 @@ const listaPresupuesto = [
         // hGanadas: 20,
         // hGastadas: 10,
         items: [
-          { id: 'item1', nombre: 'Item 1', desglose: 'D1', odt: 'ODT-201', estatus: 'Pendiente', cantidad: 2, hGanadas: 8, hGastadas: 4 },
-          { id: 'item2', nombre: 'Item 2', desglose: 'D2', odt: 'ODT-202', estatus: 'Completo', cantidad: 1, hGanadas: 5, hGastadas: 5 },
+          { id: 'item1', nombre: 'Item 1', descripcion: 'D1', causa: 'Lluvias',  hGanadas: 8, hGastadas: 4 },
+          { id: 'item2', nombre: 'Item 2', descripcion: 'D2', causa: 'Falta de materiales',  hGanadas: 5, hGastadas: 5 },
         ],
       },
       {
@@ -38,7 +38,7 @@ const listaPresupuesto = [
         // hGanadas: 12,
         // hGastadas: 12,
         items: [
-          { id: 'item3', nombre: 'Item 3', desglose: 'D3', odt: 'ODT-203', estatus: 'En progreso', cantidad: 2, hGanadas: 7, hGastadas: 3 },
+          { id: 'item3', nombre: 'Item 3', descripcion: 'D3', causa: 'Alerta roja', hGanadas: 7, hGastadas: 3 },
         ],
       },
     ],
@@ -62,33 +62,20 @@ const listaPresupuesto = [
   },
 ]; 
 
-const odts = [
-  { value: 'ODT-101', label: 'ODT-101' },
-  { value: 'ODT-102', label: 'ODT-102' },
-  { value: 'ODT-103', label: 'ODT-103' },
-  { value: 'ODT-201', label: 'ODT-201' },
-  { value: 'ODT-202', label: 'ODT-202' },
-  { value: 'ODT-203', label: 'ODT-203' },]
-const desgloses = [
-  { value: 'Desglose 1', label: 'Desglose 1' },
-  { value: 'Desglose 2', label: 'Desglose 2' },
-  { value: 'Desglose 3', label: 'Desglose 3' }, 
-  { value: 'Desglose 4', label: 'Desglose 4' },
-  { value: 'Desglose 5', label: 'Desglose 5' },
-]
-const estatusl = [
-  { value: 'Plan', label: 'Plan' },
-  { value: 'En progreso', label: 'En progreso' },
-  { value: 'Completo', label: 'Completo' },
-  { value: 'Detenido', label: 'Detenido' },
-]
+const causas = [
+  { value: 'Lluvias', label: 'Lluvias' },
+  { value: 'Falta de materiales', label: 'Falta de materiales' },
+  { value: 'Alerta roja', label: 'Alerta roja' },
+  { value: 'Falta de seguridad', label: 'Falta de seguridad' },
+  { value: 'Ordenes del cliente', label: 'Ordenes del cliente' },
+  { value: 'Otros', label: 'Otros' },
+];
+
 type Item = {
   id: string | number;
   nombre: string;
-  desglose: string;
-  odt: string;
-  estatus: string;
-  cantidad: number;
+  descripcion: string;
+  causa: string;  
   hGanadas: number;
   hGastadas: number;
 };
@@ -104,10 +91,8 @@ type RowItem = {
   nombre: string;
   tipo: 'PCP' | 'Item';
   nivel: number;
-  desglose?: string;
-  odt?: string;
-  estatus?: string;
-  cantidad?: number;
+  descripcion?: string;
+  causa?: string;  
   hGanadas?: number;
   hGastadas?: number;
   parentId?: string | null;
@@ -120,7 +105,7 @@ type Presupuesto = {
   pcps: PCP[];
 };
 
-const LineaAvance = () => {
+const HorasPerdidas = () => {
   const router = useRouter();
   const [presupuesto, setPresupuesto] = useState<string | null>(null);
   const [rows, setRows] = useState<RowItem[]>([]);
@@ -128,15 +113,17 @@ const LineaAvance = () => {
   const [listasPresupuesto, setListasPresupuesto] = useState<Presupuesto[]>(listaPresupuesto);
   const { isAuthenticated } = useAuth();
 
-
-    const selectedPresupuesto = useMemo(() => {
-      return listasPresupuesto.find(p => p.nombre === presupuesto) || null;
-    }, [listasPresupuesto, presupuesto]);
-    const handleChangePresupuesto = (_event: React.SyntheticEvent, val: string | null) => {
-      setPresupuesto(val);
-      
-    };
-
+ 
+  
+  const selectedPresupuesto = useMemo(() => {
+    return listasPresupuesto.find(p => p.nombre === presupuesto) || null;
+  }, [listasPresupuesto, presupuesto]);
+  const handleChangePresupuesto = (_event: React.SyntheticEvent, val: string | null) => {
+    setPresupuesto(val);
+    
+  };
+  
+  
   const mapToFlatRows = (presupuesto: Presupuesto): RowItem[] => {
     const rows: RowItem[] = [];
 
@@ -156,10 +143,8 @@ const LineaAvance = () => {
           nombre: item.nombre,
           tipo: 'Item',
           nivel: 1,
-          desglose: item.desglose,
-          odt: item.odt,
-          estatus: item.estatus,
-          cantidad: item.cantidad,
+          descripcion: item.descripcion,
+          causa: item.causa,          
           hGanadas: item.hGanadas,
           hGastadas: item.hGastadas,
           parentId: pcpRow.id
@@ -205,6 +190,41 @@ const LineaAvance = () => {
     onRowChange(updatedRow, true);
   };
 
+  const actualizarCausaEnLista = (itemId: string, nuevaCausa: string) => {
+    const nuevaLista = listasPresupuesto.map((presupuesto) => ({
+      ...presupuesto,
+      pcps: presupuesto.pcps.map((pcp) => ({
+        ...pcp,
+        items: pcp.items.map((item) =>
+          item.id === itemId ? { ...item, causa: nuevaCausa } : item
+        ),
+      })),
+    }));
+  console.log(nuevaLista);  
+    setListasPresupuesto(nuevaLista);
+  };
+
+  const actualizarCampoEnLista = <K extends keyof Item>(
+    itemId: string,
+    campo: K,
+    nuevoValor: Item[K]
+  ) => {
+    const nuevaLista = listasPresupuesto.map((presupuesto) => ({
+      ...presupuesto,
+      pcps: presupuesto.pcps.map((pcp) => ({
+        ...pcp,
+        items: pcp.items.map((item) =>
+          item.id === itemId ? { ...item, [campo]: nuevoValor } : item
+        ),
+      })),
+    }));
+  
+    setListasPresupuesto(nuevaLista);
+  };
+  
+  
+  
+
 
   const toggleExpanded = (id: string) => {
     const newExpanded = new Set(expandedGroupIds);
@@ -220,7 +240,7 @@ const LineaAvance = () => {
     {
       key: 'nombre',
       name: 'Elemento',
-      width: 150,
+      width: 200,
       frozen: true, // Hace la columna fija
       renderCell: ({ row }) => (
         <div style={{ display: 'flex', alignItems: 'center', paddingLeft: row.nivel * 20 }}>
@@ -246,26 +266,27 @@ const LineaAvance = () => {
         </div>
       )
     },   
+    { key: 'descripcion', name: 'Descripción', width: 100 },    
     { 
-      key: 'desglose', 
-      name: 'Desglose', 
-      width: 120,
+       key: 'causa', name: 'Causa',
+      width: 150,
       editable: true,
       renderEditCell: ({ row, onRowChange }) => (
         <div style={{ padding: '4px' }}>
           <Autocomplete
             freeSolo
-            options={desgloses} // Opciones predefinidas
-            value={row.desglose}
+            options={causas} // Opciones predefinidas
+            value={row.causa}
             onChange={(_e, value) => {
               const stringValue = typeof value === 'string' ? value : value?.value ?? '';
-              handleAutocompleteChange('desglose', stringValue, row, onRowChange);
-              actualizarCampoEnLista(row.id.replace('item-', ''), 'desglose', stringValue);
+              handleAutocompleteChange('causa', stringValue, row, onRowChange);
+              actualizarCausaEnLista(row.id.replace('item-', ''), stringValue);
             }}
             renderInput={(params) => (
               <TextField
                 {...params}
                 variant="standard"
+                style={{ width: '100%',height: '100%' }}
                 size="small"
                 InputProps={{ ...params.InputProps, disableUnderline: true }}
               />
@@ -274,68 +295,6 @@ const LineaAvance = () => {
         </div>
       )
     },
-    { 
-      key: 'odt', 
-      name: 'ODT', 
-      width: 100,
-      editable: true,
-      renderEditCell: ({ row, onRowChange }) => (
-        <div style={{ padding: '4px' }}>
-          <Autocomplete
-            freeSolo
-            options={odts} // Opciones predefinidas
-            value={row.odt}
-            onChange={(_e, value) => {
-              const stringValue = typeof value === 'string' ? value : value?.value ?? '';
-              handleAutocompleteChange('odt', stringValue, row, onRowChange);
-              actualizarCampoEnLista(row.id.replace('item-', ''), 'odt', stringValue);
-            }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                variant="standard"
-                size="small"
-                InputProps={{ ...params.InputProps, disableUnderline: true }}
-              />
-            )}
-          />
-        </div>
-      )
-    },
-    {
-      key: 'estatus',
-      name: 'Estatus',
-      width: 120,
-      editable: true,
-      renderEditCell: ({ row, onRowChange }) => {
-        const selectedOption = estatusl.find(option => option.value === row.estatus) ?? null;
-    
-        return (
-          <div style={{ padding: '4px' }}>
-            <Autocomplete
-              options={estatusl}
-              value={selectedOption}
-              onChange={(_e, value) => {
-                const stringValue = typeof value === 'string' ? value : value?.value ?? '';
-                handleAutocompleteChange('estatus', stringValue, row, onRowChange);
-                actualizarCampoEnLista(row.id.replace('item-', ''), 'estatus', stringValue);
-              }}
-              getOptionLabel={(option) => typeof option === 'string' ? option : option.label}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant="standard"
-                  size="small"
-                  InputProps={{ ...params.InputProps, disableUnderline: true }}
-                />
-              )}
-            />
-          </div>
-        );
-      }
-    }
-    ,
-    { key: 'cantidad', name: 'Cantidad', width: 100 },
     { key: 'hGanadas', name: 'Horas', width: 110 ,
       editable: row => row.tipo === 'Item',
       renderEditCell: ({ row, onRowChange }) => (
@@ -383,38 +342,21 @@ const handleRowsChange = (newRows: RowItem[], data: RowsChangeData<RowItem, unkn
   });
 };
 
-const actualizarCampoEnLista = <K extends keyof Item>(
-  itemId: string,
-  campo: K,
-  nuevoValor: Item[K]
-) => {
-  const nuevaLista = listasPresupuesto.map((presupuesto) => ({
-    ...presupuesto,
-    pcps: presupuesto.pcps.map((pcp) => ({
-      ...pcp,
-      items: pcp.items.map((item) =>
-        item.id === itemId ? { ...item, [campo]: nuevoValor } : item
-      ),
-    })),
-  }));
-
-  setListasPresupuesto(nuevaLista);
-};
 
 useEffect(() => {
-      
-  if (!isAuthenticated) {
-          router.push('/login')
-      }
-      if (selectedPresupuesto) {
-        const flatData = mapToFlatRows(selectedPresupuesto);
-        const treeData = createTree(flatData); // si tenés createTree para estructurarlo
-        setRows(treeData);
-      } else {
-        setRows([]);
-      }
-}, [selectedPresupuesto])
-
+    
+    if (!isAuthenticated) {
+            router.push('/login')
+        }
+        if (selectedPresupuesto) {
+          const flatData = mapToFlatRows(selectedPresupuesto);
+          const treeData = createTree(flatData); // si tenés createTree para estructurarlo
+          setRows(treeData);
+        } else {
+          setRows([]);
+        }
+   
+  }, [selectedPresupuesto])
 
 
   return (
@@ -437,7 +379,7 @@ useEffect(() => {
                 mb: 2,
                 fontFamily: "'Poppins', sans-serif"
               }}>
-                Linea de Avance
+               Horas Perdidas
               </Typography>
             </Box>
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mb: 2 }}>
@@ -491,4 +433,4 @@ useEffect(() => {
   );
 };
 
-export default LineaAvance;
+export default HorasPerdidas;

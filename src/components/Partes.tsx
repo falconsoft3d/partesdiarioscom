@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useRouter } from 'next/navigation';
@@ -8,15 +7,16 @@ import { Grid, Paper, Typography, Box, Button, Avatar } from '@mui/material';
 import { useAuth } from '@/context/AuthContext';
 import { colors } from '@/util/colorTheme';
 import { decryptData } from '@/util/encrypt';
+import CerrarSesion from './CerrarSesion';
 
 const Partes = () => {
     const router = useRouter();
     const { isAuthenticated,user } = useAuth();
     useEffect(() => {
         
-        // if (!isAuthenticated) {
-        //         router.push('/login')
-        //     }
+        if (!isAuthenticated) {
+                router.push('/login')
+            }
        
       }, [])
     return (
@@ -37,7 +37,7 @@ const Partes = () => {
                     }}
                 /> */}
                 <Paper elevation={6} sx={{ p: 4, borderRadius: 4, textAlign: 'center', position: 'relative', zIndex: 1,backgroundColor: '#714B67' }}>
-                {/* <CerrarSesion/> */}
+                <CerrarSesion/>
                     {/* Ícono centrado arriba */}
                     <Box  sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center',color: '#f7f0f5' ,alignItems: 'center' }}>
                     <Avatar  sx={{ width: 56, height: 56 }} alt="Remy Sharp" src="/images/avatar/1.png" />
@@ -127,7 +127,7 @@ const Partes = () => {
                         <Button
                             variant="contained"
                             startIcon={<i className="ri-time-line"></i>}
-                            //onClick={() => router.push('/config')}
+                            onClick={() => router.push('/horasperdidas')}
                             fullWidth
                             sx={{
                               
