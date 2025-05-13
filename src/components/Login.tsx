@@ -4,7 +4,7 @@
 import { Grid, Paper, Typography, Button,  TextField, CircularProgress, InputAdornment, IconButton } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { ApiResponse, FormattedUser } from '../util/types';
+import { ApiResponse, FormattedUser, UsuarioCreadoResponse } from '../util/types';
 import { validateUserField } from '@/util/validation';
 import useHttpCustomService from '@/services/HttpCustomService';
 import Swal from 'sweetalert2';
@@ -77,19 +77,22 @@ const Login = () => {
         try {
 setIsLoading(true)
 console.log(formData);
-            const response = await post<ApiResponse, FormattedUser>(`${formData.url}/bim/diary-part-offline/pwa/login`, formData);
+            const response = await post<ApiResponse, FormattedUser>(`${formData.url}bim/diary-part-offline/pwa/login`, formData);
 console.log(response);
 
             if (response.result.status === 'ok') {
               
                 const hashedPassword = await encryptPassword(formData.password);       
                 console.log("Configuración guardada en localStorage")
-                await guardarUsuario({
+                const userG:UsuarioCreadoResponse = await guardarUsuario({
                     usuario: encryptData(formData.login),
                     password: hashedPassword,
                     url: encryptData(formData.url),
+                    parte_json:''
                   });
-                login(encryptData(formData.login), hashedPassword, encryptData(formData.url));
+                  console.log(userG);
+                  
+                login(encryptData(formData.login), hashedPassword, encryptData(formData.url),userG.user.lastInsertRowid);
                 // Luego llamás al servicio para guardar en SQLite
 
   setIsLoading(false)

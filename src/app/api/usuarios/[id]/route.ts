@@ -22,8 +22,8 @@ export async function PUT(req: NextRequest) {
   if (!id) return NextResponse.json({ error: "ID no proporcionado" }, { status: 400 });
 
   try {
-    const { usuario, password, url } = await req.json();
-    updateUsuario(Number(id), usuario, password, url);
+    const { usuario, password, url,parte_json } = await req.json();
+    updateUsuario(Number(id), usuario, password, url,parte_json);
     return NextResponse.json({ message: "Usuario actualizado" }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: `Error al actualizar usuario: ${error}` }, { status: 500 });

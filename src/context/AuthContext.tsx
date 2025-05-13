@@ -17,6 +17,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     partesDiarios_usuario: '',
     partesDiarios_contrasena: '',
     partesDiarios_url: '',
+    id:0
    
   });
 
@@ -29,23 +30,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const storedUserName = localStorage.getItem('partesDiarios_usuario');
     const storedUserFirstName = localStorage.getItem('partesDiarios_contrasena');
     const storedUserLastName = localStorage.getItem('partesDiarios_url');
-   
+    const storedID = localStorage.getItem('partesDiarios_User_ID');
 
-    if (storedUserName && storedUserFirstName && storedUserLastName) {
+    if (storedUserName && storedUserFirstName && storedUserLastName && storedID) {
      // setToken(storedToken);
       setUser({
         partesDiarios_usuario: storedUserName,
         partesDiarios_contrasena: storedUserFirstName,
         partesDiarios_url: storedUserLastName,
-       
+        id:+storedID
       });
       setIsAuthenticated(true);
     }
   }, []);
 
   // Método para iniciar sesión
-  const login = (partesDiarios_usuario: string, partesDiarios_contrasena: string, partesDiarios_url: string) => {
-    setUser({ partesDiarios_usuario, partesDiarios_contrasena, partesDiarios_url });
+  const login = (partesDiarios_usuario: string, partesDiarios_contrasena: string, partesDiarios_url: string, id:number) => {
+    setUser({ partesDiarios_usuario, partesDiarios_contrasena, partesDiarios_url ,id});
     setToken(token);
     setIsAuthenticated(true);
 
@@ -54,13 +55,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem('partesDiarios_usuario', partesDiarios_usuario);
     localStorage.setItem('partesDiarios_contrasena', partesDiarios_contrasena);
     localStorage.setItem('partesDiarios_url', partesDiarios_url);
+    localStorage.setItem('partesDiarios_User_ID', id.toString());
    
     router.push("/home"); // Redirigir a la página principal
   };
 
   // Método para cerrar sesión
   const logout = () => {
-    setUser({ partesDiarios_usuario: '', partesDiarios_contrasena: '', partesDiarios_url: ''});
+    setUser({ partesDiarios_usuario: '', partesDiarios_contrasena: '', partesDiarios_url: '',id:0});
     //setToken(null);
     setIsAuthenticated(false);
     localStorage.clear(); // Borra toda la información almacenada

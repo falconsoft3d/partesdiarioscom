@@ -10,6 +10,7 @@ export interface FormattedUserNew {
   usuario:string;
   password:string;
   url:string;
+  parte_json:string;
 }
 
 export interface FormattedComentarios {
@@ -50,6 +51,7 @@ export interface AuthContextProps {
       partesDiarios_usuario: string
       partesDiarios_contrasena: string
       partesDiarios_url: string
+      id:number
      
     }
     token: string | null
@@ -57,6 +59,7 @@ export interface AuthContextProps {
       partesDiarios_usuario: string,
       partesDiarios_contrasena: string,
       partesDiarios_url: string,
+      id:number
      
     ) => void
     logout: () => void
@@ -142,4 +145,34 @@ export interface CreateEmpleadoConfig {
   empleado_id: number;
   configuracion_id: number;
   valor: string;
+}
+
+export interface UsuarioCreadoResponse {
+  message: string;
+  user: {
+    changes: number;
+    lastInsertRowid: number;
+  };
+}
+
+export interface DiaryPartResponse {
+  diary_part: string;
+  diary_part_date: string;
+  diary_part_id: number;
+  diary_part_state: string;
+  lines_ids: DiaryPartLine[];
+  status: string;
+}
+
+export interface DiaryPartLine {
+  id: number;
+  hr_employee_id: number;
+  hr_employee_name: string;
+  bim_resource_id: number | false;
+  bim_resource_name: string | false;
+  bim_pcp_id: number | false;
+  bim_pcp_id_name: string | false;
+  budget_id: number | false;
+  budget_id_name: string | false;
+  hh: number;
 }

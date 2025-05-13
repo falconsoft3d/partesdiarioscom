@@ -12,17 +12,17 @@ export const getUsuarioById = (id: number) => {
 };
 
 // Crear un nuevo usuario
-export const createUsuario = (usuario: string, password: string, url: string) => {
+export const createUsuario = (usuario: string, password: string, url: string,parte_json:string) => {
   return db
-    .prepare("INSERT INTO tb_usuarios (usuario, password, url) VALUES (?, ?, ?)")
-    .run(usuario, password, url);
+    .prepare("INSERT INTO tb_usuarios (usuario, password, url,parte_json) VALUES (?, ?, ?, ?)")
+    .run(usuario, password, url,parte_json);
 };
 
 // Actualizar usuario
-export const updateUsuario = (id: number, usuario: string, password: string, url: string) => {
+export const updateUsuario = (id: number, usuario: string, password: string, url: string,parte_json:string) => {
   return db
-    .prepare("UPDATE tb_usuarios SET usuario = ?, password = ?, url = ? WHERE id = ?")
-    .run(usuario, password, url, id);
+    .prepare("UPDATE tb_usuarios SET usuario = ?, password = ?, url = ?,parte_json = ? WHERE id = ?")
+    .run(usuario, password, url, parte_json, id);
 };
 
 // Eliminar usuario

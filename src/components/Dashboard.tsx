@@ -3,14 +3,21 @@
 
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
-import { Grid, Paper, Typography, Box, Button } from '@mui/material';
+import { Grid, Paper, Typography, Box, Button, CircularProgress } from '@mui/material';
 import CerrarSesion from './CerrarSesion';
 import { useAuth } from '@/context/AuthContext';
 import { colors } from '@/util/colorTheme';
+import { decryptData } from '@/util/encrypt';
+import { ApiResponse } from '@/util/types';
+import useHttpCustomService from '@/services/HttpCustomService';
+import { modificarUsuario } from '@/app/api/usuarios/services/usuariosService';
 
 const Dashboard = () => {
     const router = useRouter();
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated,user } = useAuth();
+    const [loading, setLoading] = React.useState(false);
+    const [error, setError] = React.useState('');
+    const { post } = useHttpCustomService(); 
     useEffect(() => {
         
         if (!isAuthenticated) {
@@ -18,6 +25,34 @@ const Dashboard = () => {
             }
        
       }, [])
+
+      const handleBajarParte = async () => {
+        setLoading(true);
+        setError('');
+      const url = decryptData(user.partesDiarios_url);   
+
+      const usuario = decryptData(user.partesDiarios_usuario);
+      const passw = decryptData(user.partesDiarios_contrasena);
+      console.log(user.partesDiarios_contrasena);
+      
+        try {
+          // Paso 1: Obtener parte desde Odoo
+          const response = await  post<ApiResponse, any>(`${url}/bim/diary-part-offline/pwa/load-part`, {login:usuario,password:usuario});
+      console.log(response);
+      
+          if (!response) throw new Error('Error al bajar el parte del servidor externo');
+          
+          const parte_json = await response.result;
+      console.log(parte_json);
+      modificarUsuario(user.id,{parte_json:parte_json.status})
+        
+        } catch (err: any) {
+          setError(err.message || 'Ocurrió un error');
+        } finally {
+          setLoading(false);
+        }
+      };
+      
     return (
         <Grid container justifyContent="center" alignItems="center" sx={{ minHeight: '100vh', p: 2 }}>
             <Grid size ={{xs:12, sm:8 ,md:6, lg:4}} component="div" sx={{ position: 'relative' }}>
@@ -64,22 +99,36 @@ const Dashboard = () => {
                     </Typography>
 
                     <Box sx={{ p: 2 }}>
-                        <Button
-                            variant="contained"
-                            startIcon={<i className="ri-arrow-down-line"></i>}
-                            onClick={() => router.push('/partes')}
-                            fullWidth
-                            sx={{
-                              
-                                backgroundColor: colors.success.default, 
-                                '&:hover': { 
-                                    backgroundColor: `${colors.success.default}CC` 
-                                },
-                                borderRadius: '5px'
-                            }}
-                        >
-                            Bajar Parte
-                        </Button>
+                    <Button
+    variant="contained"
+    startIcon={!loading && <i className="ri-arrow-down-line"></i>}
+    onClick={handleBajarParte}
+    fullWidth
+    disabled={loading}
+    sx={{
+      backgroundColor: colors.success.default,
+      '&:hover': {
+        backgroundColor: `${colors.success.default}CC`
+      },
+      borderRadius: '5px',
+      position: 'relative'
+    }}
+  >
+    
+    {loading ? (
+      <>
+      <CircularProgress size={24} sx={{ color: 'white', mr: 1 }} />
+      Por favor espere…
+  </>
+    ) : (
+      'Bajar Parte'
+    )}
+  </Button>
+  {error && (
+    <Typography variant="body2" sx={{ color: 'white', mt: 1 }}>
+      {error}
+    </Typography>
+  )}
                     </Box>
 
                     <Box sx={{ p: 2 }}>
